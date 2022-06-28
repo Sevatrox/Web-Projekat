@@ -19,5 +19,6 @@ namespace WebProjekat.Models
             TekstKomentara = tekstKomentara;
         }
 
+        public Komentar() { }
     }
 }

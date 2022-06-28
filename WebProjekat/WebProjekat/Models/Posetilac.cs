@@ -7,9 +7,9 @@ namespace WebProjekat.Models
 {
     public class Posetilac : Korisnik
     {
-        public List<GrupniTrening> listaTreningaPosetioca = new List<GrupniTrening>();
+        public List<GrupniTrening> ListaTreningaPosetioca { get; set; }
 
-        public Posetilac(string korisnickoIme, string lozinka, string ime, string prezime, char pol, string email, DateTime datumRodjenja, Uloga uloga)
+        public Posetilac(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, DateTime datumRodjenja, Uloga uloga, List<GrupniTrening> listaTreningaPosetioca)
         {
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
@@ -17,8 +17,13 @@ namespace WebProjekat.Models
             Prezime = prezime;
             Pol = pol;
             Email = email;
-            DatumRodjenja = datumRodjenja;
+            string format = datumRodjenja.ToString("dd/M/yyyy");
+            DatumRodjenja = format;
             Uloga = uloga;
+            ListaTreningaPosetioca = new List<GrupniTrening>();
+            ListaTreningaPosetioca = listaTreningaPosetioca;
         }
+
+        public Posetilac() { }
     }
 }

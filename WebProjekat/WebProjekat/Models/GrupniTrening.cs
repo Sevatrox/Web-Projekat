@@ -14,9 +14,9 @@ namespace WebProjekat.Models
         public int TrajanjeTreninga { get; set; }
         public DateTime DatumVremeneTreninga { get; set; }
         public int MaxBrojPosetilaca { get; set; }
-        List<Korisnik> spisakPosetilaca = new List<Korisnik>();
+        List<Posetilac> spisakPosetilaca = new List<Posetilac>();
 
-        public GrupniTrening(string naziv, TipTreninga tipTreninga, FitnesCentar fitnesCentar, int trajanjeTreninga, DateTime datumVremeneTreninga, int maxBrojPosetilaca, List<Korisnik> spisakPosetilaca)
+        public GrupniTrening(string naziv, TipTreninga tipTreninga, FitnesCentar fitnesCentar, int trajanjeTreninga, DateTime datumVremeneTreninga, int maxBrojPosetilaca, List<Posetilac> spisakPosetilaca)
         {
             Naziv = naziv;
             TipTreninga = tipTreninga;
@@ -26,5 +26,7 @@ namespace WebProjekat.Models
             MaxBrojPosetilaca = maxBrojPosetilaca;
             this.spisakPosetilaca = spisakPosetilaca;
         }
+
+        public GrupniTrening() { }
     }
 }
