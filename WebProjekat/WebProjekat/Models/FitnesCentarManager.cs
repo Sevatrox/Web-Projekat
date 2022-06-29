@@ -10,18 +10,13 @@ namespace WebProjekat.Models
 {
     public class FitnesCentarManager
     {
-        public static List<FitnesCentar> listaCentara { get; set; } = new List<FitnesCentar>()
-        {
-            new FitnesCentar() { Naziv = "Total Gym", Adresa = "Sutjeska 2, Novi Sad, 21101", GodinaOtvaranja = 2000,
-                Vlasnik = new Vlasnik("Markec", "markec321", "Marko", "Markovic", "M", "marko@gmail.com", new DateTime(1980, 10, 10), Uloga.VLASNIK, new List<FitnesCentar>()),
-                MesecnaCena = 3000.0, GodisnjaCena = 30000.0,  CenaTreninga = 500.0, CenaGrupnogTreninga = 800.0, CenaTreningaSaPersonalnim = 1000.0}
-        };
+        public static List<FitnesCentar> listaCentara { get; set; } = new List<FitnesCentar>();
         public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/fitnesCentri.json";
 
-        /*public static FitnesCentar FindById(int id)
+        public static FitnesCentar FindById(int id)
         {
             return listaCentara.Find(item => item.Id == id);
-        }*/
+        }
 
         public static List<FitnesCentar> GetList()
         {
@@ -29,9 +24,9 @@ namespace WebProjekat.Models
             return listaCentara;
         }
 
-        public static FitnesCentar AddProduct(FitnesCentar centar)
+        public static FitnesCentar AddFitnesCentar(FitnesCentar centar)
         {
-            //product.Id = GenerateId();
+            centar.Id = GenerateId();
             listaCentara.Add(centar);
             UpisJSON(path, listaCentara);
             return centar;
@@ -42,10 +37,10 @@ namespace WebProjekat.Models
             listaCentara.Remove(product);
         }
 
-        /*private static int GenerateId()
+        private static int GenerateId()
         {
             return Math.Abs(Guid.NewGuid().GetHashCode());
-        }*/
+        }
 
         public static void UpisJSON(string path, List<FitnesCentar> listaCentara)
         {

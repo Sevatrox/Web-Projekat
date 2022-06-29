@@ -9,13 +9,13 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $.get("/api/fitnesCentar", function (data, status) {
-                let table = '<table style="height : auto; width : 800px; margin-left : auto; margin-right : auto;" class="table table-striped table-dark">';
+                let table = '<table id="table" style="height : auto; width : 800px;" class="table sortable table-striped table-dark">';
                 table += '<thead>';
-                table += '<tr><th scope="col">Naziv</th><th scope="col">Adresa</th><th scope="col">Godina otvaranja</th><th scope="col">Izmena</th></tr>';
+                table += '<tr><th scope="col" onclick="sortTable(0)">Naziv</th><th scope="col" onclick="sortTable(1)">Adresa</th><th scope="col" onclick="sortTable(2)">Godina otvaranja</th><th scope="col">Izmena</th></tr>';
                 table += '</thead>';
                 table += '<tbody>'
                 for (element in data) {
-                    let centar = '<th scope="row">' + data[element].Naziv + '</th>';
+                    let centar = '<td scope="row">' + data[element].Naziv + '</td>';
                     centar += '<td>' + data[element].Adresa + '</td>';
                     centar += '<td>' + data[element].GodinaOtvaranja + '</td>';
                     centar += '<td><button>Detalji</button></td>';
@@ -23,14 +23,162 @@
                 }
                 table += '</tbody>'
                 table += '</table>';
-                $('#content').html(table);
+
+                $("#tableContent").append(table)
                 console.log('fitness center loaded');
             });
+
         });
     </script>
+    <script src="Scripts/sortTable.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: sans-serif;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow: hidden
+        }
+
+        @media screen and (max-width: 600px;) {
+            body {
+                background-size: cover;
+                : fixed
+            }
+        }
+
+        #particles-js {
+            height: 100%
+        }
+
+        .loginBox {
+            transform: translate(-50%,-50%);
+            width: 350px;
+            min-height: 200px;
+            background: #373b3e;
+            border-radius: 10px;
+            padding: 40px;
+            box-sizing: border-box
+        }
+
+        .user {
+            margin: 0 auto;
+            display: block;
+            margin-bottom: 20px
+        }
+
+        h3 {
+            margin: 0;
+            padding: 0 0 20px;
+            color: white;
+            text-align: center
+        }
+
+        .loginBox input {
+            width: 100%;
+            margin-bottom: 20px
+        }
+
+            .loginBox input[type="text"], .loginBox input[type="password"] {
+                border: none;
+                border-bottom: 2px solid #262626;
+                outline: none;
+                height: 40px;
+                color: #fff;
+                background: transparent;
+                font-size: 16px;
+                padding-left: 20px;
+                box-sizing: border-box
+            }
+
+                .loginBox input[type="text"]:hover, .loginBox input[type="password"]:hover {
+                    color: #42F3FA;
+                    border: 1px solid #42F3FA;
+                    box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
+                }
+
+                .loginBox input[type="text"]:focus, .loginBox input[type="password"]:focus {
+                    border-bottom: 2px solid #42F3FA
+                }
+
+        .inputBox {
+            position: relative
+        }
+
+            .inputBox span {
+                position: absolute;
+                top: 10px;
+                color: #262626
+            }
+
+        .loginBox input[type="submit"] {
+            border: none;
+            outline: none;
+            height: 40px;
+            font-size: 16px;
+            background: #1F51FF;
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer
+        }
+
+        .loginBox a {
+            color: #1F51FF;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            display: block
+        }
+
+        a:hover {
+            color: #00ffff
+        }
+
+        a {
+            color: #fff;
+        }
+
+        p {
+            color: #0000ff;
+        }
+
+        .firstDiv {
+            position: relative;
+            width: 800px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .secondDiv {
+            position: absolute;
+            top: 140px;
+            left: 150%;
+        }
+
+        table th:hover {
+            color: #42F3FA;
+            border: 1px solid #42F3FA;
+            box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
+        }
+    </style>
 </head>
 <body>
     <h1 style="text-align: center;">Fitnes centri u Novom Sadu</h1>
-    <div id="content"></div>s
+
+    <div class="firstDiv" id="tableContent">
+        <div id="login" class="loginBox secondDiv">
+            <h3>Uloguj se:</h3>
+            <form action="login.php" method="post">
+                <div class="inputBox"> <input id="uname" type="text" name="Username" placeholder="Korisnicko ime"> <input id="pass" type="password" name="Password" placeholder="Lozinka"> </div> <input type="submit" name="" value="Login">
+            </form>
+            <h3>Registracija:</h3>
+            <a href="">Sign up</a>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -7,7 +7,6 @@ namespace WebProjekat.Models
 {
     public class Komentar
     {
-
         public Posetilac Posetilac { get; set; }
         public FitnesCentar FitnesCentar { get; set; }
         public string TekstKomentara { get; set; }

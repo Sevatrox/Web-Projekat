@@ -8,6 +8,7 @@ namespace WebProjekat.Models
     public enum Uloga { POSETILAC, TRENER, VLASNIK};
     public abstract class Korisnik
     {
+        private int id;
         private string korisnickoIme;
         private string lozinka;
         private string ime;
@@ -25,5 +26,6 @@ namespace WebProjekat.Models
         public string Email { get => email; set => email = value; }
         public string DatumRodjenja { get => datumRodjenja; set => datumRodjenja = value; }
         public Uloga Uloga { get => uloga; set => uloga = value; }
+        public int Id { get => id; set => id = value; }
     }
 }

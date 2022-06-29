@@ -10,6 +10,36 @@ namespace WebProjekat.Models
 {
     public class TrenerManager
     {
+        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/treneri.json";
+
+        /*public static Trener FindById(int id)
+        {
+            return listaTrenera.Find(item => item.Id == id);
+        }
+
+        public static List<Trener> GetList()
+        {
+            listaTrenera = UcitavanjeJSON(path);
+            return listaTrenera;
+        }
+
+        public static Trener AddTrener(Trener trener)
+        {
+            trener.Id = GenerateId();
+            listaTrenera.Add(trener);
+            UpisJSON(path, listaTrenera);
+            return trener;
+        }
+
+        public static void RemoveTrener(Trener trener)
+        {
+            listaTrenera.Remove(trener);
+        }*/
+
+        private static int GenerateId()
+        {
+            return Math.Abs(Guid.NewGuid().GetHashCode());
+        }
 
         public static void UpisJSON(string path, List<Trener> listaTrenera)
         {

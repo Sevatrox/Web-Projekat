@@ -9,6 +9,38 @@ namespace WebProjekat.Models
 {
     public class GrupniTreningManager
     {
+        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/treninzi.json";
+
+        /*public static GrupniTrening FindById(int id)
+        {
+            return listaTreninga.Find(item => item.Id == id);
+        }
+
+        public static List<GrupniTrening> GetList()
+        {
+            listaTreninga = UcitavanjeJSON(path);
+            return listaTreninga;
+        }
+
+        public static GrupniTrening AddTrening(GrupniTrening trening)
+        {
+            trening.Id = GenerateId();
+            listaTreninga.Add(trening);
+            UpisJSON(path, listaTreninga);
+            return trening;
+        }
+
+        public static void RemoveTrening(GrupniTrening trening)
+        {
+            listaTreninga.Remove(trening);
+        }*/
+
+        private static int GenerateId()
+        {
+            return Math.Abs(Guid.NewGuid().GetHashCode());
+        }
+
+
         public static void UpisJSON(string path, List<GrupniTrening> listaCentara)
         {
             using (StreamWriter file = File.CreateText(path))

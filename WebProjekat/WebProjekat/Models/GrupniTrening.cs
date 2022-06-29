@@ -8,6 +8,7 @@ namespace WebProjekat.Models
     public enum TipTreninga { YOGA, LES_MILLS_TONE, BODY_PUMP};
     public class GrupniTrening
     {
+        public int Id { get; set; }
         public string Naziv { get; set; }
         public TipTreninga TipTreninga { get; set; }
         public FitnesCentar FitnesCentar { get; set; }

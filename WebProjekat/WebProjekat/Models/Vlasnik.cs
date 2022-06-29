@@ -7,9 +7,9 @@ namespace WebProjekat.Models
 {
     public class Vlasnik : Korisnik
     {
-        public List<FitnesCentar> VlasnikFitnesCentri { get; set; }
+        public List<int> VlasnikFitnesCentri { get; set; }
 
-        public Vlasnik(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, DateTime datumRodjenja, Uloga uloga, List<FitnesCentar> vlasnikFitnesCentri)
+        public Vlasnik(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, DateTime datumRodjenja, Uloga uloga, List<int> vlasnikFitnesCentri)
         {
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
@@ -20,7 +20,7 @@ namespace WebProjekat.Models
             string format = datumRodjenja.ToString("dd/M/yyyy");
             DatumRodjenja = format;
             Uloga = uloga;
-            VlasnikFitnesCentri = new List<FitnesCentar>();
+            VlasnikFitnesCentri = new List<int>();
             VlasnikFitnesCentri = vlasnikFitnesCentri;
         }
 

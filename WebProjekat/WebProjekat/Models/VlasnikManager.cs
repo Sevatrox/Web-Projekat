@@ -10,6 +10,38 @@ namespace WebProjekat.Models
 {
     public class VlasnikManager
     {
+        public static List<Vlasnik> listaVlasnika { get; set; } = new List<Vlasnik>();
+
+        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/vlasnici.json";
+
+        public static Vlasnik FindById(int id)
+        {
+            return listaVlasnika.Find(item => item.Id == id);
+        }
+
+        public static List<Vlasnik> GetList()
+        {
+            listaVlasnika = UcitavanjeJSON(path);
+            return listaVlasnika;
+        }
+
+        public static Vlasnik AddVlasnik(Vlasnik vlasnik)
+        {
+            vlasnik.Id = GenerateId();
+            listaVlasnika.Add(vlasnik);
+            UpisJSON(path, listaVlasnika);
+            return vlasnik;
+        }
+
+        public static void RemoveVlasnik(Vlasnik vlasnik)
+        {
+            listaVlasnika.Remove(vlasnik);
+        }
+
+        private static int GenerateId()
+        {
+            return Math.Abs(Guid.NewGuid().GetHashCode());
+        }
 
         public static void UpisJSON(string path, List<Vlasnik> listaVlasnika)
         {

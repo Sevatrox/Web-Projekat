@@ -28,7 +28,6 @@ namespace WebProjekat
                 Naziv = "Total Gym",
                 Adresa = "Sutjeska 2, Novi Sad, 21101",
                 GodinaOtvaranja = 2000,
-                Vlasnik = new Vlasnik("Markec", "markec321", "Marko", "Markovic", "M", "marko@gmail.com", new DateTime(1980, 10, 10), Uloga.VLASNIK, new List<FitnesCentar>()),
                 MesecnaCena = 3000.0,
                 GodisnjaCena = 30000.0,
                 CenaTreninga = 500.0,
@@ -36,12 +35,11 @@ namespace WebProjekat
                 CenaTreningaSaPersonalnim = 1000.0
             };
 
-            /*FitnesCentar fitnes2 = new FitnesCentar()
+            FitnesCentar fitnes2 = new FitnesCentar()
             {
-                Naziv = "Liman",
-                Adresa = "REEE",
-                GodinaOtvaranja = 2000,
-                Vlasnik = new Vlasnik("Markec", "markec321", "Marko", "Markovic", "M", "marko@gmail.com", new DateTime(1980, 10, 10), Uloga.VLASNIK, new List<FitnesCentar>()),
+                Naziv = "Fitnes centar Liman",
+                Adresa = "Resavska 4, Novi Sad, 21101",
+                GodinaOtvaranja = 2008,
                 MesecnaCena = 3000.0,
                 GodisnjaCena = 30000.0,
                 CenaTreninga = 500.0,
@@ -49,34 +47,24 @@ namespace WebProjekat
                 CenaTreningaSaPersonalnim = 1000.0
             };
 
-            List<FitnesCentar> lista = new List<FitnesCentar>();
-            lista.Add(fitnes);
-            //lista.Add(fitnes2);
+            Vlasnik vlasnik = new Vlasnik("Markec", "markec321", "Marko", "Markovic", "M", "marko@gmail.com", new DateTime(1980, 10, 10), Uloga.VLASNIK, new List<int>());
+            Vlasnik vlasnik2 = new Vlasnik("Dozet", "doza123", "Doz", "Simic", "M", "dozet123@gmail.com", new DateTime(1990, 8, 4), Uloga.VLASNIK, new List<int>());
 
-            /*Vlasnik vlasnik = new Vlasnik();
-            vlasnik.KorisnickoIme = "Markec";
-            vlasnik.Lozinka = "markec123";
-            vlasnik.Ime = "Marko";
-            vlasnik.Prezime = "Markovic";
-            vlasnik.Pol = "M";
-            vlasnik.Email = "markec@gmail.com";
-            vlasnik.DatumRodjenja = new DateTime(1980, 10, 10);
-            vlasnik.Uloga = Uloga.VLASNIK;
-            vlasnik.VlasnikFitnesCentri = new List<FitnesCentar>();
-            using (StreamWriter file = File.CreateText("C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/fitnesCentri.json"))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                //serialize object directly into file stream
-                serializer.Serialize(file, lista);
-            }
+            fitnes.Vlasnik = vlasnik;
+            fitnes2.Vlasnik = vlasnik2;
+
+            FitnesCentarManager.AddFitnesCentar(fitnes);
+            FitnesCentarManager.AddFitnesCentar(fitnes2);
+
+            vlasnik.VlasnikFitnesCentri.Add(fitnes.Id);
+            vlasnik2.VlasnikFitnesCentri.Add(fitnes2.Id);
+
+            VlasnikManager.AddVlasnik(vlasnik);
+            VlasnikManager.AddVlasnik(vlasnik2);*/
             
-            
-            //HttpContext.Current.Application["fitnesCentri"] = UcitavanjeJSON("C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/fitnesCentri.json");
-            //HttpContext.Current.Application["vlasnik"] = UcitavanjeJSON("C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/vlasnici.json");
-            */
         }
 
-        public List<FitnesCentar> UcitavanjeJSON(string path)
+        /*public List<FitnesCentar> UcitavanjeJSON(string path)
         {
             using (StreamReader r = new StreamReader(path))
             {
@@ -112,7 +100,7 @@ namespace WebProjekat
             {
                 throw new NotImplementedException();
             }
-        }
+        }*/
     }
 
 }
