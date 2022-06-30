@@ -9,9 +9,10 @@ namespace WebProjekat.Models
 {
     public class GrupniTreningManager
     {
+        public static List<GrupniTrening> listaTreninga { get; set; } = new List<GrupniTrening>();
         public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/treninzi.json";
 
-        /*public static GrupniTrening FindById(int id)
+        public static GrupniTrening FindById(int id)
         {
             return listaTreninga.Find(item => item.Id == id);
         }
@@ -20,6 +21,18 @@ namespace WebProjekat.Models
         {
             listaTreninga = UcitavanjeJSON(path);
             return listaTreninga;
+        }
+
+        public static List<GrupniTrening> GetListByCentar(int id)
+        {
+            listaTreninga = UcitavanjeJSON(path);
+            List<GrupniTrening> rezultat = new List<GrupniTrening>();
+            foreach (var item in listaTreninga)
+            {
+                if (item.FitnesCentar.Id == id)
+                    rezultat.Add(item);
+            }
+            return rezultat;
         }
 
         public static GrupniTrening AddTrening(GrupniTrening trening)
@@ -33,7 +46,7 @@ namespace WebProjekat.Models
         public static void RemoveTrening(GrupniTrening trening)
         {
             listaTreninga.Remove(trening);
-        }*/
+        }
 
         private static int GenerateId()
         {

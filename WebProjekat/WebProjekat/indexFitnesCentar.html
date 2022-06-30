@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Detalji fitnes centra</title>
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let id = sessionStorage.getItem("id");
+            $.get("/api/fitnesCentar/" + id, function (data, status) {
+
+                let centar = '<table id="table" style="height : auto; width : 550px;" class="table table-striped table-dark">';
+                centar += '<tbody>';
+
+                centar += '<tr><td><label>Naziv: </label></td><td><label>' + data.Naziv + '</label></td></tr>';
+                centar += '<tr><td><label>Adresa: </label></td><td><label>' + data.Adresa + '</label></td></tr>';
+                centar += '<tr><td><label>Godina otvaranja: </label></td><td><label>' + data.GodinaOtvaranja + '</label></td></tr>';
+                centar += '<tr><td><label>Vlasnik: </label></td><td><label>' + data.Vlasnik.Ime + '</label></td></tr>';
+                centar += '<tr><td><label>Mesecna cena: </label></td><td><label>' + data.MesecnaCena + '</label></td></tr>';
+                centar += '<tr><td><label>Godisnja cena: </label></td><td><label>' + data.GodisnjaCena + '</label></td></tr>';
+                centar += '<tr><td><label>Cena jednog treninga: </label></td><td><label>' + data.CenaTreninga + '</label></td></tr>';
+                centar += '<tr><td><label>Cena kednog grupnog treninga: </label></td><td><label>' + data.CenaGrupnogTreninga + '</label></td></tr>';
+                centar += '<tr><td><label>Cena treninga sa personalnim trenerom: </label></td><td><label>' + data.CenaTreningaSaPersonalnim + '</label></td></tr>';
+
+                centar += '</tbody>';
+                centar += '</table>';
+
+                $("#fitnesCentar").append(centar)
+                console.log('fitness center loaded');
+            });
+
+            $.get("/api/grupniTrening/" + id, function (data, status) {
+                let table = '<table id="table" style="height : auto; width : 900px;" class="table table-success table-striped">';
+                table += '<thead>';
+                table += '<tr><th scope="col">Naziv</th><th scope="col">Tip treninga</th><th scope="col">Fitnes centar</th><th scope="col">Trajanje treninga</th><th scope="col">Datum i vreme</th><th scope="col">Maksimalan broj posetilaca</th><th scope="col">Broj prijavljenih posetilaca</th></tr>';
+                table += '</thead>';
+                table += '<tbody>';
+                for (element in data) {
+                    let trening = '<td name="naziv" scope="row">' + data[element].Naziv + '</td>';
+                    let tip;
+                    if (data[element].TipTreninga == 0)
+                        tip = "Yoga";
+                    else if (data[element].TipTreninga == 1)
+                        tip = "Les mills tone";
+                    else
+                        tip = "Body pump";
+                    trening += '<td>' + tip + '</td>';
+                    trening += '<td>' + data[element].FitnesCentar.Naziv + '</td>';
+                    trening += '<td>' + data[element].TrajanjeTreninga + '</td>';
+                    trening += '<td>' + data[element].DatumVremeneTreninga + '</td>';
+                    trening += '<td>' + data[element].MaxBrojPosetilaca + '</td>';
+                    trening += '<td>' + data[element].SpisakPosetilaca.length + '</td>';
+                    table += '<tr>' + trening + '</tr>';
+                }
+                table += '</tbody>';
+                table += '</table>';
+
+                $("#treninzi").append(table)
+                console.log('group training loaded');
+            });
+        });
+    </script>
+    <style>
+        .firstDiv {
+            position: relative;
+            width: 550px;
+            height: auto;
+            margin: 0 auto;
+        }
+        .secondDiv {
+            position: relative;
+            width: 900px;
+            height: auto;
+            bottom: 600px;
+            top: 0px;
+            left: 500px;
+        }
+        .label {
+            font-size:22px
+        }
+        table[id=table] th, td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Detaljnije informacije o fitnes centru:</h1>
+
+    <div class="firstDiv" id="fitnesCentar">
+    </div>
+    <h1 style="text-align: center;">Grupni treninzi: </h1>
+    <div class="secondDiv" id="treninzi">
+    </div>
+</body>
+</html>

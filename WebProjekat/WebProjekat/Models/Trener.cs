@@ -7,10 +7,10 @@ namespace WebProjekat.Models
 {
     public class Trener : Korisnik
     {
-        public List<GrupniTrening> ListaTreningaTrenera { get; set; }
+        public List<int> ListaTreningaTrenera { get; set; }
         public FitnesCentar AngazovanFitnesCentar { get; set; }
 
-        public Trener(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, DateTime datumRodjenja, Uloga uloga, FitnesCentar angazovanFitnesCentar, List<GrupniTrening> listaTreningaTrenera)
+        public Trener(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, DateTime datumRodjenja, Uloga uloga, FitnesCentar angazovanFitnesCentar, List<int> listaTreningaTrenera)
         {
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
@@ -18,11 +18,10 @@ namespace WebProjekat.Models
             Prezime = prezime;
             Pol = pol;
             Email = email;
-            string format = datumRodjenja.ToString("dd/M/yyyy");
+            string format = datumRodjenja.ToString("dd/MM/yyyy");
             DatumRodjenja = format;
             Uloga = uloga;
             AngazovanFitnesCentar = angazovanFitnesCentar;
-            ListaTreningaTrenera = new List<GrupniTrening>();
             ListaTreningaTrenera = listaTreningaTrenera;
         }
 

@@ -10,10 +10,12 @@ namespace WebProjekat.Models
 {
     public class PosetilacManager
     {
+        public static List<Posetilac> listaPosetilaca { get; set; } = new List<Posetilac>();
+
         public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/posetioci.json";
 
 
-        /*public static Posetilac FindById(int id)
+        public static Posetilac FindById(int id)
         {
             return listaPosetilaca.Find(item => item.Id == id);
         }
@@ -34,8 +36,8 @@ namespace WebProjekat.Models
 
         public static void RemovePosetilac(Posetilac posetilac)
         {
-            listaaPosetilaca.Remove(posetilac);
-        }*/
+            listaPosetilaca.Remove(posetilac);
+        }
 
         private static int GenerateId()
         {

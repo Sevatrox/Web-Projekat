@@ -17,7 +17,7 @@ namespace WebProjekat.Models
             Prezime = prezime;
             Pol = pol;
             Email = email;
-            string format = datumRodjenja.ToString("dd/M/yyyy");
+            string format = datumRodjenja.ToString("dd/MM/yyyy");
             DatumRodjenja = format;
             Uloga = uloga;
             VlasnikFitnesCentri = new List<int>();

@@ -17,5 +17,10 @@ namespace WebProjekat.Controllers
             return FitnesCentarManager.GetList();
             //return lista;
         }
+        public FitnesCentar Get(int id)
+        {
+            return FitnesCentarManager.FindById(id);
+        }
+
     }
 }

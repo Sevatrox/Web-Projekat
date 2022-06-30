@@ -61,7 +61,37 @@ namespace WebProjekat
 
             VlasnikManager.AddVlasnik(vlasnik);
             VlasnikManager.AddVlasnik(vlasnik2);*/
-            
+            /*
+            FitnesCentar fitnes = new FitnesCentar()
+            {
+                Naziv = "Total Gym",
+                Adresa = "Sutjeska 2, Novi Sad, 21101",
+                GodinaOtvaranja = 2000,
+                MesecnaCena = 3000.0,
+                GodisnjaCena = 30000.0,
+                CenaTreninga = 500.0,
+                CenaGrupnogTreninga = 800.0,
+                CenaTreningaSaPersonalnim = 1000.0
+            };
+
+            Posetilac posetilac1 = new Posetilac("Stefo", "stefo321", "Stefan", "Stefanovic", "M", "stefke@gmail.com", new DateTime(1995, 2, 24), Uloga.POSETILAC, new List<int>() );
+            Posetilac posetilac2 = new Posetilac("Marija", "maja", "Marija", "Tatic", "Z", "maja111@gmail.com", new DateTime(2000, 4, 14), Uloga.POSETILAC, new List<int>());
+            Posetilac posetilac3 = new Posetilac("necke", "nele11111", "Nemanja", "Stajic", "M", "nemanjaaa3@gmail.com", new DateTime(1999, 4, 24), Uloga.POSETILAC, new List<int>());
+
+            PosetilacManager.AddPosetilac(posetilac1);
+            PosetilacManager.AddPosetilac(posetilac2);
+            PosetilacManager.AddPosetilac(posetilac3);
+
+            GrupniTrening grupniTrening1 = new GrupniTrening("Razbudjivanje", TipTreninga.YOGA, fitnes, 60, new DateTime(2022, 7, 8, 7, 0, 0), 30, new List<int>());
+            GrupniTrening grupniTrening2 = new GrupniTrening("Trening snage", TipTreninga.BODY_PUMP, fitnes, 80, new DateTime(2022, 6, 29, 19, 30, 0), 10, new List<int>());
+
+            grupniTrening1.FitnesCentar = fitnes;
+            grupniTrening1.SpisakPosetilaca.Add(posetilac1.Id);
+            grupniTrening1.SpisakPosetilaca.Add(posetilac2.Id);
+            GrupniTreningManager.AddTrening(grupniTrening1);
+            grupniTrening2.SpisakPosetilaca.Add(posetilac3.Id);
+            GrupniTreningManager.AddTrening(grupniTrening2);
+            */
         }
 
         /*public List<FitnesCentar> UcitavanjeJSON(string path)

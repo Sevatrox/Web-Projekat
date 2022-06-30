@@ -13,19 +13,20 @@ namespace WebProjekat.Models
         public TipTreninga TipTreninga { get; set; }
         public FitnesCentar FitnesCentar { get; set; }
         public int TrajanjeTreninga { get; set; }
-        public DateTime DatumVremeneTreninga { get; set; }
+        public string DatumVremeneTreninga { get; set; }
         public int MaxBrojPosetilaca { get; set; }
-        List<Posetilac> spisakPosetilaca = new List<Posetilac>();
+        public List<int> SpisakPosetilaca { get; set; }
 
-        public GrupniTrening(string naziv, TipTreninga tipTreninga, FitnesCentar fitnesCentar, int trajanjeTreninga, DateTime datumVremeneTreninga, int maxBrojPosetilaca, List<Posetilac> spisakPosetilaca)
+        public GrupniTrening(string naziv, TipTreninga tipTreninga, FitnesCentar fitnesCentar, int trajanjeTreninga, DateTime datumVremeneTreninga, int maxBrojPosetilaca, List<int> spisakPosetilaca)
         {
             Naziv = naziv;
             TipTreninga = tipTreninga;
             FitnesCentar = fitnesCentar;
             TrajanjeTreninga = trajanjeTreninga;
-            DatumVremeneTreninga = datumVremeneTreninga;
+            string format = datumVremeneTreninga.ToString("dd/MM/yyyy HH:mm");
+            DatumVremeneTreninga = format;
             MaxBrojPosetilaca = maxBrojPosetilaca;
-            this.spisakPosetilaca = spisakPosetilaca;
+            SpisakPosetilaca = spisakPosetilaca;
         }
 
         public GrupniTrening() { }
