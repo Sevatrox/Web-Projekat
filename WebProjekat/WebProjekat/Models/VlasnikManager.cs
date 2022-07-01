@@ -10,13 +10,33 @@ namespace WebProjekat.Models
 {
     public class VlasnikManager
     {
-        public static List<Vlasnik> listaVlasnika { get; set; } = new List<Vlasnik>();
-
         public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/vlasnici.json";
+
+        public static List<Vlasnik> listaVlasnika { get; set; } = UcitavanjeJSON(path);
 
         public static Vlasnik FindById(int id)
         {
             return listaVlasnika.Find(item => item.Id == id);
+        }
+
+        public static bool FindByUsername(string korisnickoIme)
+        {
+            foreach (var item in listaVlasnika)
+            {
+                if (item.KorisnickoIme == korisnickoIme)
+                    return true;
+            }
+            return false;
+        }
+
+        public static Vlasnik FindAccount(string korisnickoIme, string lozinka)
+        {
+            foreach (var item in listaVlasnika)
+            {
+                if (item.KorisnickoIme == korisnickoIme && item.Lozinka == lozinka)
+                    return item;
+            }
+            return null;
         }
 
         public static List<Vlasnik> GetList()
@@ -36,6 +56,7 @@ namespace WebProjekat.Models
         public static void RemoveVlasnik(Vlasnik vlasnik)
         {
             listaVlasnika.Remove(vlasnik);
+            UpisJSON(path, listaVlasnika);
         }
 
         private static int GenerateId()

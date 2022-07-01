@@ -159,7 +159,9 @@
     <Compile Include="Controllers\FitnesCentarController.cs" />
     <Compile Include="Controllers\GrupniTreningController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KomentarController.cs" />
     <Compile Include="Controllers\KorisnikController.cs" />
+    <Compile Include="Controllers\PosetilacController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -169,6 +171,7 @@
     <Compile Include="Models\GrupniTrening.cs" />
     <Compile Include="Models\GrupniTreningManager.cs" />
     <Compile Include="Models\Komentar.cs" />
+    <Compile Include="Models\KomentarManager.cs" />
     <Compile Include="Models\Korisnik.cs" />
     <Compile Include="Models\Posetilac.cs" />
     <Compile Include="Models\PosetilacManager.cs" />
@@ -189,6 +192,7 @@
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="indexFitnesCentar.html" />
+    <Content Include="registration.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -214,6 +218,8 @@
     <Content Include="App_Data\vlasnici.json" />
     <Content Include="App_Data\posetioci.json" />
     <Content Include="App_Data\treninzi.json" />
+    <Content Include="App_Data\komentari.json" />
+    <Content Include="App_Data\treneri.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

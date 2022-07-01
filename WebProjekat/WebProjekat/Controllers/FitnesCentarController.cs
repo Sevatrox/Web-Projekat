@@ -13,9 +13,7 @@ namespace WebProjekat.Controllers
     {
         public List<FitnesCentar> Get()
         {
-            //List<FitnesCentar> lista = (List<FitnesCentar>)HttpContext.Current.Application["fitnesCentri"];
             return FitnesCentarManager.GetList();
-            //return lista;
         }
         public FitnesCentar Get(int id)
         {

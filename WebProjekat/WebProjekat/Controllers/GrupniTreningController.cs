@@ -12,15 +12,11 @@ namespace WebProjekat.Controllers
     {
         public List<GrupniTrening> Get()
         {
-            //List<FitnesCentar> lista = (List<FitnesCentar>)HttpContext.Current.Application["fitnesCentri"];
             return GrupniTreningManager.GetList();
-            //return lista;
         }
         public List<GrupniTrening> Get(int id)
         {
-            //List<FitnesCentar> lista = (List<FitnesCentar>)HttpContext.Current.Application["fitnesCentri"];
             return GrupniTreningManager.GetListByCentar(id);
-            //return lista;
         }
     }
 }

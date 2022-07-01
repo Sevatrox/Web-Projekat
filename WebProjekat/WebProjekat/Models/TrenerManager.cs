@@ -12,9 +12,31 @@ namespace WebProjekat.Models
     {
         public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/treneri.json";
 
-        /*public static Trener FindById(int id)
+        public static List<Trener> listaTrenera = UcitavanjeJSON(path);
+
+        public static Trener FindById(int id)
         {
             return listaTrenera.Find(item => item.Id == id);
+        }
+
+        public static bool FindByUsername(string korisnickoIme)
+        {
+            foreach (var item in listaTrenera)
+            {
+                if (item.KorisnickoIme == korisnickoIme)
+                    return true;
+            }
+            return false;
+        }
+
+        public static Trener FindAccount(string korisnickoIme, string lozinka)
+        {
+            foreach (var item in listaTrenera)
+            {
+                if (item.KorisnickoIme == korisnickoIme && item.Lozinka == lozinka)
+                    return item;
+            }
+            return null;
         }
 
         public static List<Trener> GetList()
@@ -26,6 +48,7 @@ namespace WebProjekat.Models
         public static Trener AddTrener(Trener trener)
         {
             trener.Id = GenerateId();
+            trener.ListaTreningaTrenera = new List<int>();
             listaTrenera.Add(trener);
             UpisJSON(path, listaTrenera);
             return trener;
@@ -34,7 +57,8 @@ namespace WebProjekat.Models
         public static void RemoveTrener(Trener trener)
         {
             listaTrenera.Remove(trener);
-        }*/
+            UpisJSON(path, listaTrenera);
+        }
 
         private static int GenerateId()
         {

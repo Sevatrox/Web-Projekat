@@ -8,36 +8,47 @@ using System.Web;
 
 namespace WebProjekat.Models
 {
-    public class FitnesCentarManager
+    public class KomentarManager
     {
-        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/fitnesCentri.json";
+        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/komentari.json";
 
-        public static List<FitnesCentar> listaCentara { get; set; } = UcitavanjeJSON(path);
+        public static List<Komentar> listaKomentara { get; set; } = UcitavanjeJSON(path);
 
-        public static FitnesCentar FindById(int id)
+        public static Komentar FindById(int id)
         {
-            return listaCentara.Find(item => item.Id == id);
+            return listaKomentara.Find(item => item.Id == id);
         }
 
-        public static List<FitnesCentar> GetList()
+        public static List<Komentar> GetList()
         {
-            listaCentara = UcitavanjeJSON(path);
-            return listaCentara;
+            listaKomentara = UcitavanjeJSON(path);
+            return listaKomentara;
         }
 
-        public static FitnesCentar AddFitnesCentar(FitnesCentar centar)
+        public static List<Komentar> GetListByCentar(int id)
         {
-            centar.Id = GenerateId();
-            //centar.Vlasnik = new Vlasnik();
-            listaCentara.Add(centar);
-            UpisJSON(path, listaCentara);
-            return centar;
+            listaKomentara = UcitavanjeJSON(path);
+            List<Komentar> rezultat = new List<Komentar>();
+            foreach (var item in listaKomentara)
+            {
+                if (item.FitnesCentar.Id == id)
+                    rezultat.Add(item);
+            }
+            return rezultat;
         }
 
-        public static void RemoveCentar(FitnesCentar centar)
+        public static Komentar AddKomentar(Komentar komentar)
         {
-            listaCentara.Remove(centar);
-            UpisJSON(path, listaCentara);
+            komentar.Id = GenerateId();
+            listaKomentara.Add(komentar);
+            UpisJSON(path, listaKomentara);
+            return komentar;
+        }
+
+        public static void RemoveKomentar(Komentar komentar)
+        {
+            listaKomentara.Remove(komentar);
+            UpisJSON(path, listaKomentara);
         }
 
         private static int GenerateId()
@@ -45,22 +56,22 @@ namespace WebProjekat.Models
             return Math.Abs(Guid.NewGuid().GetHashCode());
         }
 
-        public static void UpisJSON(string path, List<FitnesCentar> listaCentara)
+        public static void UpisJSON(string path, List<Komentar> listaKomentara)
         {
             using (StreamWriter file = File.CreateText(path))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, listaCentara);
+                serializer.Serialize(file, listaKomentara);
             }
         }
 
-        public static List<FitnesCentar> UcitavanjeJSON(string path)
+        public static List<Komentar> UcitavanjeJSON(string path)
         {
             using (StreamReader r = new StreamReader(path))
             {
                 string json = r.ReadToEnd();
                 JsonConverter[] converters = { new FitnesConverter() };
-                var test = JsonConvert.DeserializeObject<List<FitnesCentar>>(json, new JsonSerializerSettings() { Converters = converters });
+                var test = JsonConvert.DeserializeObject<List<Komentar>>(json, new JsonSerializerSettings() { Converters = converters });
                 return test;
             }
         }
@@ -75,7 +86,7 @@ namespace WebProjekat.Models
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
                 JObject jo = JObject.Load(reader);
-                if (jo["Uloga"].Value<string>() == "VLASNIK")
+                if (jo["Uloga"].Value<string>() == "POSETILAC")
                     return jo.ToObject<Vlasnik>(serializer);
 
                 return null;
@@ -91,6 +102,5 @@ namespace WebProjekat.Models
                 throw new NotImplementedException();
             }
         }
-
     }
 }

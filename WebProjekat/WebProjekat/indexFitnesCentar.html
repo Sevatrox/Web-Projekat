@@ -20,7 +20,7 @@
                 centar += '<tr><td><label>Mesecna cena: </label></td><td><label>' + data.MesecnaCena + '</label></td></tr>';
                 centar += '<tr><td><label>Godisnja cena: </label></td><td><label>' + data.GodisnjaCena + '</label></td></tr>';
                 centar += '<tr><td><label>Cena jednog treninga: </label></td><td><label>' + data.CenaTreninga + '</label></td></tr>';
-                centar += '<tr><td><label>Cena kednog grupnog treninga: </label></td><td><label>' + data.CenaGrupnogTreninga + '</label></td></tr>';
+                centar += '<tr><td><label>Cena jednog grupnog treninga: </label></td><td><label>' + data.CenaGrupnogTreninga + '</label></td></tr>';
                 centar += '<tr><td><label>Cena treninga sa personalnim trenerom: </label></td><td><label>' + data.CenaTreningaSaPersonalnim + '</label></td></tr>';
 
                 centar += '</tbody>';
@@ -56,9 +56,24 @@
                 table += '</tbody>';
                 table += '</table>';
 
-                $("#treninzi").append(table)
+                $("#treninzi").append(table);
                 console.log('group training loaded');
             });
+
+            $.get("/api/komentar/" + id, function (data, status) {
+                for (element in data) {
+                    let komentar = '<div class="cloud" style="width: 300px; height: auto; display: inline-block; vertical-align: top;">';
+                    komentar += '<label>Posetilac:  </label><label>' + data[element].Posetilac.KorisnickoIme + '</label><br>';
+                    komentar += '<label>Fitnes centar:  </label><label>' + data[element].FitnesCentar.Naziv + '</label><br>';
+                    komentar += '<label>Komentar:  </label><label>' + data[element].TekstKomentara + '</label><br>';
+                    komentar += '<label>Ocena(1 - 5):  </label><label>' + data[element].Ocena + '</label>';
+                    komentar += '</div>';
+
+                    $('#komentari').append(komentar);
+                    console.log('comment loaded');
+                }
+            });
+
         });
     </script>
     <style>
@@ -76,6 +91,56 @@
             top: 0px;
             left: 500px;
         }
+        .thirdDiv {
+            text-align: center;
+            width: auto;
+            height: auto;
+            bottom: 1200px;
+            top: 0px;
+        }
+
+        .cloud {
+            width: 350px;
+            height: 120px;
+            background: #f2f9fe;
+            background: linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+            background: -webkit-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+            background: -moz-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+            background: -o-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
+            border-radius: 100px;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            position: relative;
+            margin: 120px auto 20px;
+        }
+
+            .cloud:after, .cloud:before {
+                content: '';
+                position: absolute;
+                background: #f2f9fe;
+                z-index: -1
+            }
+
+            .cloud:after {
+                width: 100px;
+                height: 100px;
+                top: -50px;
+                left: 50px;
+                border-radius: 100px;
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+            }
+
+            .cloud:before {
+                width: 180px;
+                height: 180px;
+                top: -90px;
+                right: 50px;
+                border-radius: 200px;
+                -webkit-border-radius: 200px;
+                -moz-border-radius: 200px;
+            }
+
         .label {
             font-size:22px
         }
@@ -87,10 +152,9 @@
 <body>
     <h1 style="text-align: center;">Detaljnije informacije o fitnes centru:</h1>
 
-    <div class="firstDiv" id="fitnesCentar">
-    </div>
+    <div class="firstDiv" id="fitnesCentar"></div>
     <h1 style="text-align: center;">Grupni treninzi: </h1>
-    <div class="secondDiv" id="treninzi">
-    </div>
+    <div class="secondDiv" id="treninzi"></div>
+    <div class="thirdDiv" id="komentari"></div>
 </body>
 </html>

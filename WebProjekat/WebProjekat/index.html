@@ -39,6 +39,67 @@
                 console.log('fitness center loaded');
             });
 
+            $("#usercheck").hide();
+            let usernameError = true;
+            $("#korisnickoIme").keyup(function () {
+                validateUsername();
+            });
+
+            function validateUsername() {
+                usernameValue = $("#korisnickoIme").val();
+                if (usernameValue.length == "") {
+                    $("#usercheck").show();
+                    usernameError = false;
+                    return false;
+                }
+                else {
+                    $("#usercheck").hide();
+                    usernameError = true;
+                }
+            }
+
+            $("#passwordcheck").hide();
+            let passwordError = true;
+            $("#lozinka").keyup(function () {
+                validatePassword();
+            });
+
+            function validatePassword() {
+                let passwordValue = $("#lozinka").val();
+                if (passwordValue.length == "") {
+                    $("#passwordcheck").show();
+                    passwordError = false;
+                    return false;
+                }
+                else {
+                    $("#passwordcheck").hide();
+                    passwordError = true;
+                }
+            }
+
+            $("#loginButton").click(function () {
+                validateUsername();
+                validatePassword();
+
+                if (usernameError == true && passwordError == true) {
+                    let KorisnickoIme = $("#korisnickoIme").val();
+                    let Lozinka = $("#lozinka").val();
+                    $.post('/api/korisnik', { 'KorisnickoIme': KorisnickoIme, 'Lozinka': Lozinka },
+                        function (result) {
+                            alert('Ulogovani ste');
+                            $("#login").hide();
+                            console.log(result);
+                        }
+                    ).fail(function (xhr) {
+                        alert('Ne postoji korisnik sa datim imenom i lozinkom');
+                    });
+                } else {
+                    $("#usercheck").hide();
+                    $("#passwordcheck").hide();
+                    return false;
+                }
+            });
+
             /*$("#pretraga").on("keyup", function () {
                 var valueNaziv = $("input[name=nazivInput]").val().toLowerCase();
                 var valueAdresa = $("input[name=adresaInput]").val().toLowerCase();
@@ -161,6 +222,8 @@
 
         a {
             color: #fff;
+            text-align:center;
+            font-size:16px;
         }
 
         .firstDiv {
@@ -215,11 +278,19 @@
     <div class="firstDiv" id="tableContent">
         <div id="login" class="loginBox secondDiv">
             <h3>Uloguj se:</h3>
-            <form action="login.php" method="post">
-                <div class="inputBox"> <input id="uname" type="text" name="Username" placeholder="Korisnicko ime"> <input id="pass" type="password" name="Password" placeholder="Lozinka"> </div> <input type="submit" name="" value="Login">
-            </form>
+            <div class="inputBox">
+                <input id="korisnickoIme" type="text" name="Username" placeholder="Korisnicko ime">
+                <p id="usercheck" style="color: red;font-size: 10px">
+                    Username is missing
+                </p>
+                <input id="lozinka" type="password" name="Password" placeholder="Lozinka">
+                <p id="passwordcheck" style="color: red;font-size: 10px">
+                    Password is missing
+                </p>
+            </div>
+            <input type="submit" name="login" id="loginButton" value="Login">
             <h3>Registracija:</h3>
-            <a href="">Sign up</a>
+            <a href="registration.html">Sign up</a>
         </div>
         <div class="thirdDiv">
             <h1 style="font-size: 30px; text-align: center">Pretraga centara:</h1>

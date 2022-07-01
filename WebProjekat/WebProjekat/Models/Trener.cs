@@ -10,7 +10,7 @@ namespace WebProjekat.Models
         public List<int> ListaTreningaTrenera { get; set; }
         public FitnesCentar AngazovanFitnesCentar { get; set; }
 
-        public Trener(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, DateTime datumRodjenja, Uloga uloga, FitnesCentar angazovanFitnesCentar, List<int> listaTreningaTrenera)
+        public Trener(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, string datumRodjenja, Uloga uloga, FitnesCentar angazovanFitnesCentar, List<int> listaTreningaTrenera)
         {
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
@@ -18,8 +18,7 @@ namespace WebProjekat.Models
             Prezime = prezime;
             Pol = pol;
             Email = email;
-            string format = datumRodjenja.ToString("dd/MM/yyyy");
-            DatumRodjenja = format;
+            DatumRodjenja = datumRodjenja;
             Uloga = uloga;
             AngazovanFitnesCentar = angazovanFitnesCentar;
             ListaTreningaTrenera = listaTreningaTrenera;

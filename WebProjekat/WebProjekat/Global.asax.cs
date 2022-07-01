@@ -60,9 +60,9 @@ namespace WebProjekat
             vlasnik2.VlasnikFitnesCentri.Add(fitnes2.Id);
 
             VlasnikManager.AddVlasnik(vlasnik);
-            VlasnikManager.AddVlasnik(vlasnik2);*/
-            /*
-            FitnesCentar fitnes = new FitnesCentar()
+            VlasnikManager.AddVlasnik(vlasnik2);
+            */
+            /*FitnesCentar fitnes = new FitnesCentar()
             {
                 Naziv = "Total Gym",
                 Adresa = "Sutjeska 2, Novi Sad, 21101",
@@ -73,7 +73,7 @@ namespace WebProjekat
                 CenaGrupnogTreninga = 800.0,
                 CenaTreningaSaPersonalnim = 1000.0
             };
-
+            
             Posetilac posetilac1 = new Posetilac("Stefo", "stefo321", "Stefan", "Stefanovic", "M", "stefke@gmail.com", new DateTime(1995, 2, 24), Uloga.POSETILAC, new List<int>() );
             Posetilac posetilac2 = new Posetilac("Marija", "maja", "Marija", "Tatic", "Z", "maja111@gmail.com", new DateTime(2000, 4, 14), Uloga.POSETILAC, new List<int>());
             Posetilac posetilac3 = new Posetilac("necke", "nele11111", "Nemanja", "Stajic", "M", "nemanjaaa3@gmail.com", new DateTime(1999, 4, 24), Uloga.POSETILAC, new List<int>());
@@ -91,7 +91,14 @@ namespace WebProjekat
             GrupniTreningManager.AddTrening(grupniTrening1);
             grupniTrening2.SpisakPosetilaca.Add(posetilac3.Id);
             GrupniTreningManager.AddTrening(grupniTrening2);
-            */
+
+        
+
+            Komentar komentar1 = new Komentar(posetilac1, fitnes, "Odlicna atmosfera, definitivno svaka topla preporuka za Total Gym!", 5);
+            Komentar komentar2 = new Komentar(posetilac2, fitnes, "Teretana je odlicno opremljena, ali svlacionice bi mogle biti uredjenije.", 4);
+
+            KomentarManager.AddKomentar(komentar1);
+            KomentarManager.AddKomentar(komentar2);*/
         }
 
         /*public List<FitnesCentar> UcitavanjeJSON(string path)

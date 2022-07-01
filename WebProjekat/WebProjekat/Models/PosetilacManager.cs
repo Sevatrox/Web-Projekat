@@ -10,14 +10,33 @@ namespace WebProjekat.Models
 {
     public class PosetilacManager
     {
-        public static List<Posetilac> listaPosetilaca { get; set; } = new List<Posetilac>();
-
         public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/posetioci.json";
 
+        public static List<Posetilac> listaPosetilaca { get; set; } = UcitavanjeJSON(path);
 
         public static Posetilac FindById(int id)
         {
             return listaPosetilaca.Find(item => item.Id == id);
+        }
+
+        public static bool FindByUsername(string korisnickoIme)
+        {
+            foreach (var item in listaPosetilaca)
+            {
+                if (item.KorisnickoIme == korisnickoIme)
+                    return true;
+            }
+            return false;
+        }
+
+        public static Posetilac FindAccount(string korisnickoIme, string lozinka)
+        {
+            foreach (var item in listaPosetilaca)
+            {
+                if (item.KorisnickoIme == korisnickoIme && item.Lozinka == lozinka)
+                    return item;
+            }
+            return null;
         }
 
         public static List<Posetilac> GetList()
@@ -29,6 +48,7 @@ namespace WebProjekat.Models
         public static Posetilac AddPosetilac(Posetilac posetilac)
         {
             posetilac.Id = GenerateId();
+            posetilac.ListaTreningaPosetioca = new List<int>();
             listaPosetilaca.Add(posetilac);
             UpisJSON(path, listaPosetilaca);
             return posetilac;
@@ -37,6 +57,7 @@ namespace WebProjekat.Models
         public static void RemovePosetilac(Posetilac posetilac)
         {
             listaPosetilaca.Remove(posetilac);
+            UpisJSON(path, listaPosetilaca);
         }
 
         private static int GenerateId()

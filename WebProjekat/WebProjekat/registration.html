@@ -1,0 +1,394 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#usercheck").hide();
+            let usernameError = true;
+            $("#korisnickoIme").keyup(function () {
+                validateUsername();
+            });
+
+            function validateUsername() {
+                usernameValue = $("#korisnickoIme").val();
+                if (usernameValue.length == "") {
+                    $("#usercheck").show();
+                    usernameError = false;
+                    return false;
+                }
+                else if (usernameValue.length < 3 || usernameValue.length > 12) {
+                    $("#usercheck").show();
+                    $("#usercheck").html("Length of username must be between 3 and 12");
+                    usernameError = false;
+                    return false;
+                }
+                else {
+                    $("#usercheck").hide();
+                    usernameError = true;
+                }
+            }
+
+            $("#passwordcheck").hide();
+            let passwordError = true;
+            $("#lozinka").keyup(function () {
+                validatePassword();
+            });
+
+            function validatePassword() {
+                let passwordValue = $("#lozinka").val();
+                if (passwordValue.length == "") {
+                    $("#passwordcheck").show();
+                    passwordError = false;
+                    return false;
+                }
+                else if (passwordValue.length < 6 || passwordValue.length > 20) {
+                    $("#passwordcheck").show();
+                    $("#passwordcheck").html("Length of your password must be between 6 and 20");
+                    $("#passwordcheck").css("color", "red");
+                    passwordError = false;
+                    return false;
+                }
+                else {
+                    $("#passwordcheck").hide();
+                    passwordError = true;
+                }
+            }
+
+            $("#namecheck").hide();
+            let nameError = true;
+            $("#ime").keyup(function () {
+                validateIme();
+            });
+
+            function validateIme() {
+                let nameValue = $("#ime").val();
+                if (nameValue.length == "") {
+                    $("#namecheck").show();
+                    nameError = false;
+                    return false;
+                } else if (nameValue.length < 3 || nameValue.length > 20) {
+                    $("#namecheck").show();
+                    $("#namecheck").html("Length of name must be between 3 and 20");
+                    nameError = false;
+                    return false;
+                } else {
+                    $("#namecheck").hide();
+                    nameError = true;
+                }
+            }
+
+            $("#prezimecheck").hide();
+            let lastnameError = true;
+            $("#prezime").keyup(function () {
+                validatePrezime();
+            });
+
+            function validatePrezime() {
+                let lastnameValue = $("#prezime").val();
+                if (lastnameValue.length == "") {
+                    $("#prezimecheck").show();
+                    lastnameError = false;
+                    return false;
+                } else if (lastnameValue.length < 3 || lastnameValue.length > 20) {
+                    $("#prezimecheck").show();
+                    $("#prezimecheck").html("Length of last name must be between 3 and 20");
+                    lastnameError = false;
+                    return false;
+                } else {
+                    $("#prezimecheck").hide();
+                    lastnameError = true;
+                }
+            }
+
+            $("#emailcheck").hide();
+            let emailError = true;
+            $("#email").keyup(function () {
+                validateEmail();
+            });
+
+            function validateEmail() {
+                let emailValue = $("#email").val();
+                let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                if (emailValue.length == "") {
+                    $("#emailcheck").show();
+                    emailError = false;
+                    return false;
+                } else if (regex.test(emailValue)) {
+                    $("#emailcheck").hide();
+                    emailError = true;
+                } else {
+                    $("#emailcheck").show();
+                    $("#emailcheck").html("Invalid form for email");
+                    emailError = false;
+                    return false;
+                }
+            }
+
+            $("#datecheck").hide();
+            let dateError = true;
+            $("#datumRodjenja").keyup(function () {
+                validateDate();
+            });
+
+            function validateDate() {
+                let dateValue = $("#datumRodjenja").val();
+                let regex = /^\d{2}\/\d{2}\/\d{4}$/;
+                if (dateValue.length == "") {
+                    $("#datecheck").show();
+                    dateError = false;
+                    return false;
+                } else if (dateValue.match(regex) === null) {
+                    $("#datecheck").show();
+                    $("#datecheck").html("Invalid form for date");
+                    dateError = false;
+                    return false;
+                } else {
+                    $("#datecheck").hide();
+                    dateError = true;
+                }
+            }
+
+            $("#radiocheck").hide();
+            let radioError = true;
+
+            function validateRadio() {
+                if (document.getElementById('radioM').checked == true || document.getElementById('radioZ').checked == true) {
+                    $("#radiocheck").hide();
+                    radioError = true;
+                } else {
+                    $("#radiocheck").show();
+                    $("#radiocheck").html("You must choose one gender");
+                    radioError = false;
+                    return false;
+                }
+            }
+
+            // Submit button
+            $("#registracija").click(function () {
+                validateUsername();
+                validatePassword();
+                validateIme();
+                validatePrezime();
+                validateEmail();
+                validateDate();
+                validateRadio();
+
+                if (
+                    usernameError == true &&
+                    passwordError == true &&
+                    nameError == true &&
+                    lastnameError == true &&
+                    dateError == true &&
+                    emailError == true &&
+                    radioError == true
+                ) {
+                    let KorisnickoIme = $("#korisnickoIme").val();
+                    let Lozinka = $("#lozinka").val();
+                    let Ime = $("#ime").val();
+                    let Prezime = $("#prezime").val();
+                    let Pol;
+                    if (document.getElementById('radioM').checked)
+                        Pol = $("#radioM").val();
+                    else
+                        Pol = $("#radioZ").val();
+
+                    let DatumRodjenja = $("#datumRodjenja").val();
+                    let Email = $("#email").val();
+
+                    let Uloga = 0;
+
+                    $.post('/api/posetilac', { 'KorisnickoIme': KorisnickoIme, 'Lozinka': Lozinka, 'Ime': Ime, 'Prezime': Prezime, 'Pol': Pol, 'DatumRodjenja': DatumRodjenja, 'Email': Email, 'Uloga': Uloga },
+                        function (result) {
+                            alert('Registrovali ste se, mozete se sada logovati');
+                            console.log(result);
+                            window.location.href = 'index.html';
+                        }
+                    ).fail(function (xhr) {
+                        alert('Vec potoji korisnik za ovim korisnickim imenom');
+                    });
+                } else {
+                    return false;
+                }
+            });
+
+        });
+    </script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+        body {
+            background-color: #535fe6;
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+        }
+
+        .height {
+            height: 100vh;
+        }
+
+        .card {
+            border: none;
+            padding: 20px;
+            background-color: #373b3e;
+            color: #fff;
+        }
+
+        .form-input {
+            position: relative;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+            .form-input i {
+                position: absolute;
+                font-size: 18px;
+                top: 15px;
+                left: 10px;
+            }
+
+        .form-control {
+            height: 50px;
+            border: none;
+            border-bottom: 2px solid #262626;
+            outline: none;
+            color: #fff;
+            background: transparent;
+            font-size: 16px;
+            text-indent: 24px;
+            box-sizing: border-box
+        }
+
+            .form-control:focus {
+                background-color: #25272a;
+                box-shadow: none;
+                color: #fff;
+                border-color: #4f63e7;
+            }
+
+            .form-control:hover {
+                color: #42F3FA;
+                border: 2px solid #42F3FA;
+                box-shadow: 0 0 5px rgba(0, 255, 0, .3), 0 0 10px rgba(0, 255, 0, .2), 0 0 15px rgba(0, 255, 0, .1), 0 2px 0 black
+            }
+
+        .form-check-label {
+            margin-top: 2px;
+            font-size: 14px;
+        }
+
+        .signup {
+            height: 50px;
+            font-size: 14px;
+        }
+
+        a:hover {
+            color: #00ffff
+        }
+
+        a {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5 mb-5">
+
+        <div class="row d-flex align-items-center justify-content-center">
+
+            <div class="col-md-6">
+
+                <div class="card px-5 py-5">
+
+                        <div class="form-input">
+
+                            <i class="fa fa-user"></i>
+                            <input id="korisnickoIme" name="korisnickoIme" type="text" class="form-control"
+                                   placeholder="Korisnicko ime">
+                            <p id="usercheck" style="color: red;">
+                                Username is missing
+                            </p>
+                        </div>
+
+                        <div class="form-input">
+
+                            <i class="fa fa-lock"></i>
+                            <input id="lozinka" name="lozinka" type="password" required class="form-control"
+                                   placeholder="Lozinka">
+                            <p id="passwordcheck" style="color: red;">
+                                Password is missing
+                            </p>
+                        </div>
+
+
+                        <div class="form-input">
+
+                            <i class="fa fa-user"></i>
+                            <input id="ime" name="ime" type="text" class="form-control" placeholder="Ime">
+                            <p id="namecheck" style="color: red;">
+                                Name is missing
+                            </p>
+                        </div>
+
+                        <div class="form-input">
+
+                            <i class="fa fa-user"></i>
+                            <input id="prezime" name="prezime" type="text" class="form-control" placeholder="Prezime">
+                            <p id="prezimecheck" style="color: red;">
+                                Last name is missing
+                            </p>
+                        </div>
+
+                        <div class="form-input">
+
+                            <i class="fa fa-envelope"></i>
+                            <input id="email" name="email" type="text" class="form-control" placeholder="Email">
+                            <p id="emailcheck" style="color: red;">
+                                Email is not valid
+                            </p>
+                        </div>
+
+                        <div class="form-input">
+
+                            <i class="fa fa-user"></i>
+                            <input id="datumRodjenja" name="datumRodjenja" type="text" class="form-control" placeholder="Datum rodjenja(dd/MM/yyyy))">
+                            <p id="datecheck" style="color: red;">
+                                Date is not valid
+                            </p>
+                        </div>
+
+                        <div>
+                            <label>Pol:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" id="radioM" type="radio" value="M" name="pol">Muski
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" id="radioZ" type="radio" value="Z" name="pol">Zenski
+                            </div>
+                            <p id="radiocheck" style="color: red;">
+                                You didn't choose your gender
+                            </p>
+                        </div>
+
+                        <input id="registracija" type="submit" class="btn btn-primary mt-4 signup" value="Registruj se!">
+
+                        <a href="index.html">Pocetna stranica</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
