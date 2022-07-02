@@ -28,7 +28,7 @@
                                         }
                                     });
                                     $.ajax({
-                                        url: '/api/posetilac', type: 'PUT', data: { 'Id': korisnik.Id, 'KorisnickoIme': korisnik.KorisnickoIme, 'Lozinka': korisnik.Lozinka, 'Ime': korisnik.Ime, 'Prezime': korisnik.Prezime, 'Pol': korisnik.Pol, 'DatumRodjenja': korisnik.DatumRodjenja, 'Email': korisnik.Email, 'Uloga': korisnik.Uloga, 'ListaTreningaPosetioca': idTreninga},
+                                        url: '/api/posetilac', type: 'PUT', data: { 'Id': korisnik.Id, 'KorisnickoIme': korisnik.KorisnickoIme, 'Lozinka': korisnik.Lozinka, 'Ime': korisnik.Ime, 'Prezime': korisnik.Prezime, 'Pol': korisnik.Pol, 'DatumRodjenja': korisnik.DatumRodjenja, 'Email': korisnik.Email, 'Uloga': korisnik.Uloga, 'ListaTreningaPosetioca': idTreninga, 'ListaOdrzavanjaTreninga': korisnik.ListaOdrzavanjaTreninga},
                                         success: function (result) {
                                             console.log("Izvrsen put u posetioce");
                                             sessionStorage.setItem("login", JSON.stringify(result));
@@ -68,14 +68,17 @@
                 return true;
             }
         }
+
         $(document).ready(function () {
             let id = sessionStorage.getItem("id");
             logovanje();
+            var naziv;
             $.get("/api/fitnesCentar/" + id, function (data, status) {
 
                 let centar = '<table id="table" style="height : auto; width : 550px;" class="table table-striped table-dark">';
                 centar += '<tbody>';
 
+                naziv = data.Naziv;
                 centar += '<tr><td><label>Naziv: </label></td><td><label>' + data.Naziv + '</label></td></tr>';
                 centar += '<tr><td><label>Adresa: </label></td><td><label>' + data.Adresa + '</label></td></tr>';
                 centar += '<tr><td><label>Godina otvaranja: </label></td><td><label>' + data.GodinaOtvaranja + '</label></td></tr>';
@@ -100,6 +103,9 @@
                 table += '</thead>';
                 table += '<tbody>';
                 for (element in data) {
+                    let datum = data[element].DatumVremeneTreninga;
+                    if (proveraDatuma(datum))
+                        continue;
                     let trening = '<td name="naziv" scope="row">' + data[element].Naziv + '</td>';
                     let tip;
                     if (data[element].TipTreninga == 0)
@@ -113,7 +119,6 @@
                     trening += '<td>' + data[element].TrajanjeTreninga + '</td>';
                     trening += '<td>' + data[element].DatumVremeneTreninga + '</td>';
                     trening += '<td>' + data[element].MaxBrojPosetilaca + '</td>';
-                    console.log(data[element].SpisakPosetilaca.length);
                     trening += '<td>' + data[element].SpisakPosetilaca.length + '</td>';
                     trening += '<td><button onclick="Prijava(' + data[element].Id + ')" id="buttonPrijava" class="buttonPrijava">Prijavi se</button></td>';
 
@@ -126,9 +131,36 @@
                 console.log('group training loaded');
             });
 
-            $.get("/api/komentar/" + id, function (data, status) {
+            function proveraDatuma(datumTreninga) {
+                let today = new Date();
+
+                let date = today.getFullYear() +  '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                let time = today.getHours() + ":" + today.getMinutes();
+                let dateTime = date + ' ' + time;
+                let trenutnoVreme = new Date(dateTime);
+
+                let [tempDatum, tempVreme] = datumTreninga.split(" ");
+                let [dan, mesec, godina] = tempDatum.split('/');
+                let formiranoVreme = godina + '-' + mesec + '-' + dan + ' ' + tempVreme;
+                let formiranoVremeTreninga = new Date(formiranoVreme);
+
+                if (isBefore(formiranoVremeTreninga, trenutnoVreme))
+                    return true;
+                return false;
+            }
+
+            function isBefore(date1, date2) {
+                return date1 < date2;
+            }
+
+
+
+            $.get("/api/komentar/" + naziv, function (data, status) {
                 for (element in data) {
-                    let komentar = '<div class="cloud" style="width: 300px; height: auto; display: inline-block; vertical-align: top;">';
+                    let hidden = "";
+                    if (!data[element].Odobren)
+                        hidden = "hidden";
+                    let komentar = '<div class="cloud" style="width: 300px; height: auto; display: inline-block; vertical-align: top;"' + hidden +'>';
                     komentar += '<label>Posetilac:  </label><label>' + data[element].Posetilac.KorisnickoIme + '</label><br>';
                     komentar += '<label>Fitnes centar:  </label><label>' + data[element].FitnesCentar.Naziv + '</label><br>';
                     komentar += '<label>Komentar:  </label><label>' + data[element].TekstKomentara + '</label><br>';

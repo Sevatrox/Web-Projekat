@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Pisanje komentara</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            logovanje();
+            pisanjeKomentara();
+
+            function pisanjeKomentara() {
+                $("#commentCheck").hide();
+                $("#scoreCheck").hide();
+            }
+
+            $("#komentar").keyup(function () {
+                validateKomentar();
+            });
+
+            $("#ocena").keyup(function () {
+                validateOcena();
+            });
+
+            function validateKomentar() {
+                let komentar = $("#komentar").val();
+                if (komentar == "") {
+                    $("#commentCheck").html('Napisite komentar');
+                    $("#commentCheck").show();
+                    return false;
+                }
+                else if (komentar.length < 10) {
+                    $("#commentCheck").html('Komentar mora biti od barem 10 slova');
+                    $("#commentCheck").show();
+                    return false;
+                }
+                $("#commentCheck").hide();
+                return true;
+            }
+
+            function validateOcena() {
+                let ocena = $("#ocena").val();
+                if (ocena == "") {
+                    $("#scoreCheck").html('Napisite ocenu');
+                    $("#scoreCheck").show();
+                    return false;
+                }
+                else if (isNaN(ocena)) {
+                    $("#scoreCheck").html('Napisite broj od 1 do 5');
+                    $("#scoreCheck").show();
+                    return false;
+                }
+                else if (ocena < 1 || ocena > 5) {
+                    $("#scoreCheck").html('Napisite broj od 1 do 5');
+                    $("#scoreCheck").show();
+                    return false;
+                }
+                $("#scoreCheck").hide();
+                return true;
+            }
+
+            $("#registracija").click(function () {
+                if (validateOcena() && validateKomentar) {
+                    var korisnik = JSON.parse(sessionStorage.getItem("login"));
+                    var fitnesCentar = sessionStorage.getItem("fitnesCentar");
+                    let komentar = $("#komentar").val();
+                    let ocena = $("#ocena").val();
+                    $.post('/api/komentar', { 'Posetilac': korisnik, 'FitnesCentar': fitnesCentar, 'TekstKomentara': komentar, 'Ocena': ocena },
+                        function (result) {
+                            alert('Napisali ste komentar, ceka se da ga odobri vlasnik');
+                            console.log(result);
+                            window.location.href = 'index.html';
+                        }
+                    );
+                }
+            });
+
+            $("#logOut").click(function () {
+                sessionStorage.removeItem("login");
+                logovanje();
+                alert('Izlogovani ste');
+            });
+
+            function logovanje() {
+                if (sessionStorage.getItem("login") == null) {
+                    $("#profile").hide();
+                    $("#logOut").hide();
+                }
+                else {
+                    $("#profile").show();
+                    $("#logOut").show();
+                }
+            }
+        });
+    </script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+        body {
+            background-color: #535fe6;
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+        }
+
+        .height {
+            height: 100vh;
+        }
+
+        .card {
+            border: none;
+            padding: 20px;
+            background-color: #373b3e;
+            color: #fff;
+        }
+
+        .form-input {
+            position: relative;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+            .form-input i {
+                position: absolute;
+                font-size: 18px;
+                top: 15px;
+                left: 10px;
+            }
+
+        .form-control {
+            height: 50px;
+            border: none;
+            border-bottom: 2px solid #262626;
+            outline: none;
+            color: #fff;
+            background: transparent;
+            font-size: 16px;
+            text-indent: 24px;
+            box-sizing: border-box
+        }
+
+            .form-control:focus {
+                background-color: #25272a;
+                box-shadow: none;
+                color: #fff;
+                border-color: #4f63e7;
+            }
+
+            .form-control:hover {
+                color: #42F3FA;
+                border: 2px solid #42F3FA;
+                box-shadow: 0 0 5px rgba(0, 255, 0, .3), 0 0 10px rgba(0, 255, 0, .2), 0 0 15px rgba(0, 255, 0, .1), 0 2px 0 black
+            }
+
+        .form-check-label {
+            margin-top: 2px;
+            font-size: 14px;
+        }
+
+        .signup {
+            height: 50px;
+            font-size: 14px;
+        }
+
+        a:hover {
+            color: #00ffff
+        }
+
+        a {
+            color: #fff;
+        }
+
+        .menuDiv {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 45px;
+            width: 400px;
+        }
+
+        .navbar {
+            position: absolute;
+            top: -8px;
+            overflow: hidden;
+            background-color: #373b3e;
+            font-family: Arial;
+            height: 45px;
+            width: auto;
+        }
+
+            .navbar a {
+                font-size: 16px;
+                color: white;
+                text-align: center;
+                width: auto;
+                height: 45px;
+                padding: 9.5px;
+                text-decoration: none;
+            }
+
+                .navbar a:hover {
+                    color: #42F3FA;
+                    border: 1px solid #42F3FA;
+                    box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
+                }
+    </style>
+</head>
+<body>
+    <div class="menuDiv navbar">
+        <a id="home" href="index.html">Pocetna</a>
+        <a id="profile" href="profil.html">Profil</a>
+        <a id="logOut" href="index.html">Log out</a>
+    </div>
+    <div class="container mt-5 mb-5">
+
+        <div class="row d-flex align-items-center justify-content-center">
+
+            <div class="col-md-6">
+
+                <div class="card px-5 py-5">
+
+                    <div class="form-input">
+
+                        <i class="fa fa-user"></i>
+                        <input id="komentar" name="komentar" type="text" class="form-control"
+                               placeholder="Komentar korisnika">
+                        <p id="commentCheck" style="color: red;">
+                            Comment is missing
+                        </p>
+                    </div>
+
+                    <div class="form-input">
+
+                        <i class="fa fa-lock"></i>
+                        <input id="ocena" name="ocena" type="text" required class="form-control"
+                               placeholder="Ocena(od 1 do 5)">
+                        <p id="scoreCheck" style="color: red;">
+                            Score is missing
+                        </p>
+                    </div>
+
+                    <input id="registracija" type="submit" class="btn btn-primary mt-4 signup" value="Posalji komentar!">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

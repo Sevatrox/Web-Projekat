@@ -14,9 +14,13 @@ namespace WebProjekat.Controllers
         {
             return KomentarManager.GetList();
         }
-        public List<Komentar> Get(int id)
+        public List<Komentar> Get(string naziv)
         {
-            return KomentarManager.GetListByCentar(id);
+            return KomentarManager.GetListByCentar(naziv);
+        }
+        public IHttpActionResult Post(Komentar komentar)
+        {
+            return Ok(KomentarManager.AddKomentar(komentar));
         }
     }
 }

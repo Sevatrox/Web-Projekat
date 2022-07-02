@@ -25,13 +25,13 @@ namespace WebProjekat.Models
             return listaKomentara;
         }
 
-        public static List<Komentar> GetListByCentar(int id)
+        public static List<Komentar> GetListByCentar(string naziv)
         {
             listaKomentara = UcitavanjeJSON(path);
             List<Komentar> rezultat = new List<Komentar>();
             foreach (var item in listaKomentara)
             {
-                if (item.FitnesCentar.Id == id)
+                if (item.FitnesCentar.Naziv == naziv)
                     rezultat.Add(item);
             }
             return rezultat;
@@ -40,6 +40,7 @@ namespace WebProjekat.Models
         public static Komentar AddKomentar(Komentar komentar)
         {
             komentar.Id = GenerateId();
+            komentar.Odobren = false;
             listaKomentara.Add(komentar);
             UpisJSON(path, listaKomentara);
             return komentar;

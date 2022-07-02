@@ -6,13 +6,17 @@
     <title>Profil</title>
     <script src="Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript">
+        function napisiKomentar(fitnesCentar) {
+            sessionStorage.setItem("fitnesCentar", fitnesCentar);
+            window.location.href = 'pisanjeKomentara.html';
+        }
         $(document).ready(function () {
             var korisnik = JSON.parse(sessionStorage.getItem("login"));
             console.log(korisnik);
             logovanje();
             UcitavanjeProfila(korisnik);
 
-            function UcitavanjeProfila(korisnik){
+            function UcitavanjeProfila(korisnik) {
                 let uloga;
                 if (korisnik.Uloga == 0)
                     uloga = "POSETILAC";
@@ -27,13 +31,13 @@
                 else
                     pol = "Zenski";
 
-                let profil = '<table id="table" style="height : auto; width : 600px;" class="table table-striped table-dark">';
+                let profil = '<table id="podaci" style="height : auto; width : 450px;" class="table table-striped table-dark">';
                 profil += '<tbody>';
 
-                profil += '<tr><td><label>Naziv: </label></td><td><label>' + korisnik.KorisnickoIme + '</label></td></tr>';
+                profil += '<tr><td><label>Korisnicko ime: </label></td><td><label>' + korisnik.KorisnickoIme + '</label></td></tr>';
                 profil += '<tr><td><label>Lozinka: </label></td><td><input type="password" readonly value="' + korisnik.Lozinka + '"></td></tr>';
-                profil += '<tr><td><label>Ime: </label></td><td><label>' + korisnik.Ime  + '</label></td></tr>';
-                profil += '<tr><td><label>Prezime: </label></td><td><label>' + korisnik.Prezime  + '</label></td></tr>';
+                profil += '<tr><td><label>Ime: </label></td><td><label>' + korisnik.Ime + '</label></td></tr>';
+                profil += '<tr><td><label>Prezime: </label></td><td><label>' + korisnik.Prezime + '</label></td></tr>';
                 profil += '<tr><td><label>Pol: </label></td><td><label>' + pol + '</label></td></tr>';
                 profil += '<tr><td><label>Email </label></td><td><label>' + korisnik.Email + '</label></td></tr>';
                 profil += '<tr><td><label>Datum rodjenja: </label></td><td><label>' + korisnik.DatumRodjenja + '</label></td></tr>';
@@ -50,16 +54,21 @@
 
             $.get("/api/grupniTrening", function (data, status) {
                 GrupniTreninzi(data);
+                OdradjeniTreninzi(data);
             });
 
             function GrupniTreninzi(data) {
                 if (korisnik.Uloga == 0) {
                     let lista = '<tr><td><label>Grupni treninzi: </label></td><td>';
                     for (trening in korisnik.ListaTreningaPosetioca) {
+                        let brojac = 0;
                         for (element in data) {
+                            if (proveraDatuma(data[element].DatumVremeneTreninga))
+                                continue;
                             if (korisnik.ListaTreningaPosetioca[trening] == data[element].Id) {
                                 lista += '<label>' + data[element].Naziv + '</label><br>';
                             }
+                            brojac += 1;
                         }
                     }
                     lista += '</td></tr>';
@@ -81,6 +90,92 @@
                     return;
             }
 
+            function OdradjeniTreninzi(data) {
+                if (korisnik.Uloga == 0) {
+                    let tabela = '<table id="table" style="height : auto; width : 1000px;" class="table sortable table-striped table-dark">';
+                    tabela += '<thead>';
+                    tabela += '<tr><th scope="col" onclick="sortTable(0)">Naziv treninga</th><th scope="col" onclick="sortTable(1)">Tip</th><th scope="col" onclick="sortTable(2)">Fitnes centar</th><th scope="col">Trajanje treninga</th><th scope="col">Datum i vreme</th><th scope="col">Maksimalan broj posetilaca</th><th scope="col">Broj prijavljenih posetilaca</th><th scope="col">Prokomentarisi</th></tr>';
+                    tabela += '</thead>';
+                    tabela += '<tbody>';
+                    for (trening in korisnik.ListaTreningaPosetioca) {
+                        for (element in data) {
+                            if (korisnik.ListaTreningaPosetioca[trening] == data[element].Id && proveraDatuma(data[element].DatumVremeneTreninga)) {
+
+                                let trening = '<td name="naziv" scope="row">' + data[element].Naziv + '</td>';
+                                let tip;
+                                if (data[element].TipTreninga == 0)
+                                    tip = "Yoga";
+                                else if (data[element].TipTreninga == 1)
+                                    tip = "Les mills tone";
+                                else
+                                    tip = "Body pump";
+                                trening += '<td name="tip">' + tip + '</td>';
+                                trening += '<td name="fitnesCentar">' + data[element].FitnesCentar.Naziv + '</td>';
+                                trening += '<td>' + data[element].TrajanjeTreninga + '</td>';
+                                trening += '<td>' + data[element].DatumVremeneTreninga + '</td>';
+                                trening += '<td>' + data[element].MaxBrojPosetilaca + '</td>';
+                                trening += '<td>' + data[element].SpisakPosetilaca.length + '</td>';
+                                let fitnesCentar = data[element].FitnesCentar
+                                trening += '<td><button id="buttonKomentar" class="buttonKomentar" onclick="napisiKomentar(\'' + fitnesCentar + '\')">Napisi komentar</button></td>';
+                                tabela += '<tr>' + trening + '</tr>';
+                            }
+                        }
+                    }
+                    tabela += '</tbody>';
+                    tabela += '</table>';
+                    $('#tabelaTreninga').append(tabela);
+
+                }
+                else
+                    return;
+            }
+
+
+
+            function proveraDatuma(datumTreninga) {
+                let today = new Date();
+
+                let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                let time = today.getHours() + ":" + today.getMinutes();
+                let dateTime = date + ' ' + time;
+                let trenutnoVreme = new Date(dateTime);
+
+                let [tempDatum, tempVreme] = datumTreninga.split(" ");
+                let [dan, mesec, godina] = tempDatum.split('/');
+                let formiranoVreme = godina + '-' + mesec + '-' + dan + ' ' + tempVreme;
+                let formiranoVremeTreninga = new Date(formiranoVreme);
+
+                console.log(formiranoVremeTreninga);
+                if (isBefore(formiranoVremeTreninga, trenutnoVreme)) {
+                    return true;
+                }
+                return false;
+            }
+
+            function isBefore(date1, date2) {
+                return date1 < date2;
+            }
+
+            $("#pretragaNaziv").on("keyup", function () {
+                let value = $(this).val().toLowerCase();
+                $("#table tbody td[name=naziv]").filter(function () {
+                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            $("#pretragaAdresa").on("keyup", function () {
+                let value = $(this).val().toLowerCase();
+                $("#table tbody td[name=tip]").filter(function () {
+                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
+
+                });
+            });
+            $("#pretragaGodina").on("keyup", function () {
+                let value = $(this).val().toLowerCase();
+                $("#table tbody td[name=fitnesCentar]").filter(function () {
+                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
             $.get("/api/fitnesCentar", function (data, status) {
                 FitnesCentri(data);
             });
@@ -100,8 +195,8 @@
                 }
                 else
                     return;
-            }   
-          
+            }
+
             $("#logOut").click(function () {
                 sessionStorage.removeItem("login");
                 logovanje();
@@ -122,12 +217,29 @@
             }
         });
     </script>
+    <script src="Scripts/sortTable.js"></script>
     <style>
         .firstDiv {
-            position: relative;
-            width: 600px;
+            position: absolute;
+            top: 70px;
+            right:5px;
+            width: auto;
             height: auto;
-            margin: 0 auto;
+        }
+
+        .secondDiv {
+            position: absolute;
+            top: 60px;
+            left: 5px;
+            width: auto;
+            height: auto;
+        }
+        .thirdDiv {
+            position: absolute;
+            top: 0px;
+            right: 100%;
+            width: 450px;
+            height: 300px;
         }
 
         .navbar {
@@ -156,8 +268,26 @@
                     box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
                 }
 
-        table[id=table] th, td {
+        table th, td {
             text-align: center;
+            vertical-align: middle;
+        }
+        #table th:hover {
+            color: #42F3FA;
+            border: 1px solid #42F3FA;
+            box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
+        }
+
+        .buttonKomentar {
+            display: block;
+            width: 120px;
+            height: 50px;
+            background: #4E9CAF;
+            padding-left: 15px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
         }
 
     </style>
@@ -169,7 +299,33 @@
         <a id="update" href="update.html">Izmena podataka</a>
         <a id="logOut" href="index.html">Log out</a>
     </div>
-    <h1 style="text-align: center;">Fitnes centri u Novom Sadu</h1>
-    <div class="firstDiv" id="tableContent"></div>
+
+    <div class="firstDiv" id="tabelaTreninga">
+        <h3 style="text-align: center;">Odradjeni grupni treninzi</h3>
+        <div class="thirdDiv">
+
+            <h1 style="font-size: 30px; text-align: center">Pretraga grupnih treninga:</h1>
+            <table>
+                <tr>
+                    <td><label>Pretraga po nazivu treninga: </label></td>
+                    <td><input name="nazivInput" id="pretragaNaziv" type="text" placeholder="Search..."></td>
+                </tr>
+                <tr>
+                    <td><label>Pretraga po tipu treninga: </label></td>
+                    <td><input name="adresaInput" id="pretragaAdresa" type="text" placeholder="Search..."></td>
+                </tr>
+                <tr>
+                    <td><label>Pretraga po nazivu fitnes centra: </label></td>
+                    <td><input name="godinaInput" id="pretragaGodina" type="text" placeholder="Search..."></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    <div class="secondDiv" id="tableContent">
+        <h1 style="text-align: center;">Profil korisnika</h1>
+    </div>
+
+
 </body>
 </html>

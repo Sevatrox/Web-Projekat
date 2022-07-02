@@ -80,25 +80,16 @@ namespace WebProjekat.Models
                     item.DatumRodjenja = posetilac.DatumRodjenja;
                     item.Email = posetilac.Email;
                     item.Pol = posetilac.Pol;
-                    foreach (int trening in posetilac.ListaTreningaPosetioca)
+                    if (posetilac.ListaTreningaPosetioca != null)
                     {
-                        if (!item.ListaTreningaPosetioca.Contains(trening))
-                            item.ListaTreningaPosetioca.Add(trening);
+                        foreach (int trening in posetilac.ListaTreningaPosetioca)
+                        {
+                            if (!item.ListaTreningaPosetioca.Contains(trening))
+                            {
+                                item.ListaTreningaPosetioca.Add(trening);
+                            }
+                        }
                     }
-                    UpisJSON(path, listaPosetilaca);
-                    return item;
-                }
-            }
-            return null;
-        }
-
-        public static Posetilac UpdatePosetilac(int idKorisnika, int idTreninga)
-        {
-            foreach (Posetilac item in listaPosetilaca)
-            {
-                if (item.Id == idKorisnika)
-                {
-                    item.ListaTreningaPosetioca.Add(idTreninga);
                     UpisJSON(path, listaPosetilaca);
                     return item;
                 }

@@ -8,10 +8,6 @@
     <script src="Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript">
         function detaljnije(id) {
-            /*$(".buttonDetalji").on("click", function () {
-                let val = $(this).data("id");
-                console.log(val);
-            });*/
             sessionStorage.setItem("id", id);
             window.location.href = 'indexFitnesCentar.html';
         }
@@ -135,6 +131,72 @@
 
             });*/
 
+            /*$("#filtroSolicitacoes").submit(function () {
+                $("#solicitacoes > div").show();
+                var filtroProtocolo = $("#filtroProtocolo").val();
+                var filtroSolicitante = $("#filtroSolicitante").val().toUpperCase();
+                var filtroStatus = $("#filtroStatus").val();
+                var filtroAnalista = $("#filtroAnalista").val();
+                var filtroResultado = $("#filtroResultado:checked").length;
+
+                var elements = $("[id=filtros]");
+
+                if (filtroStatus !== "0") {
+                    elements = elements.filter("[status='" + filtroStatus + "']");
+                }
+                if (filtroProtocolo !== "") {
+                    elements = elements.filter("[id='" + filtroProtocolo + "']");
+                }
+
+                // and so on
+
+                $("#solicitatcoes > div").not(elements).hide();
+
+                return false;
+            });*/
+
+            /*$(".pretraga").on("keyup", function () {
+                let valueNaziv = $("#pretragaNaziv").val().toLowerCase();
+                let valueAdresa = $("#pretragaAdresa").val().toLowerCase();
+
+
+                if (valueNaziv !== "") {
+                    $("#table tbody td[name=naziv]").filter(function () {
+                        let redovi = $(this).parent($(this).text().toLowerCase().indexOf(valueNaziv) > -1);
+                        if (valueAdresa !== "") {
+                            let a;
+                        }
+                        else
+                            $(redovi).toggle();
+                    });
+                }
+                /*if (valueAdresa !== "") {
+                    let test = $("#table tbody td[name=adresa]").is(":visible");
+                    $(test).filter(function () {
+                        $(this).parent().hide($(this).text().toLowerCase().indexOf(valueNaziv) <= -1);
+                    });
+                }
+            });
+
+            $("#pretragaAdresa").on("keyup", function () {
+                valueAdresa = $(this).val().toLowerCase();
+                valueNaziv = $("#pretragaNaziv").val().toLowerCase();
+
+                if (valueAdresa !== "") {
+                    $("#table tbody td[name=adresa]").filter(function () {
+                        filtrirani = $(this).parent().toggle($(this).text().toLowerCase().indexOf(valueAdresa) > -1);
+                    });
+                }
+                if (valueNaziv !== "") {
+                    $("#table tbody td[name=naziv]").filter(function () {
+                        filtrirani = $(this).parent().toggle($(this).text().toLowerCase().indexOf(valueNaziv) > -1);
+                    });
+                }
+
+            });*/
+
+
+
             $("#pretragaNaziv").on("keyup", function () {
                 let value = $(this).val().toLowerCase();
                 $("#table tbody td[name=naziv]").filter(function () {
@@ -145,13 +207,22 @@
                 let value = $(this).val().toLowerCase();
                 $("#table tbody td[name=adresa]").filter(function () {
                     $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
-
                 });
             });
-            $("#pretragaGodina").on("keyup", function () {
-                let value = $(this).val().toLowerCase();
+            $(".pretragaGodina").on("keyup", function () {
+                let value1 = $("#pretragaGodina1").val();
+                let value2 = $("#pretragaGodina2").val();
+                console.log(value1);
+                console.log(value2);
                 $("#table tbody td[name=godina]").filter(function () {
-                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    if(value1 !== "" && value2 === "")
+                        $(this).parent().toggle($(this).text() - value1 >= 0);
+                    else if (value1 === "" && value2 !== "")
+                        $(this).parent().toggle(value2 - $(this).text() >= 0);
+                    else if (value1 !== "" && value2 !== "")
+                        $(this).parent().toggle(value2 - $(this).text() >= 0 && $(this).text() - value1 >= 0);
+                    else if (value1 === "" && value2 === "")
+                        $(this).parent().show();
                 });
             });
 
@@ -360,15 +431,18 @@
             <table>
                 <tr>
                     <td><label>Pretraga po nazivu centra: </label></td>
-                    <td><input name="nazivInput" id="pretragaNaziv" type="text" placeholder="Search..."></td>
+                    <td><input name="nazivInput" class="pretraga" id="pretragaNaziv" type="text" placeholder="Search..."></td>
                 </tr>
                 <tr>
                     <td><label>Pretraga po adresi centra: </label></td>
-                    <td><input name="adresaInput" id="pretragaAdresa" type="text" placeholder="Search..."></td>
+                    <td><input name="adresaInput" class="pretraga" id="pretragaAdresa" type="text" placeholder="Search..."></td>
                 </tr>
                 <tr>
                     <td><label>Pretraga po godini otvaranja centra: </label></td>
-                    <td><input name="godinaInput" id="pretragaGodina" type="text" placeholder="Search..."></td>
+                    <td>
+                        <label style="padding-left:5px;">Min:</label><input style="width: 50px;" name="godinaInput" class="pretragaGodina" id="pretragaGodina1" type="text">
+                        <label>Max:</label><input style="width: 50px;" name="godinaInput" class="pretragaGodina" id="pretragaGodina2" type="text">
+                    </td>
                 </tr>
             </table>
 

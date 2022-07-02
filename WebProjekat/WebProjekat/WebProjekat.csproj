@@ -194,6 +194,7 @@
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="indexFitnesCentar.html" />
+    <Content Include="pisanjeKomentara.html" />
     <Content Include="profil.html" />
     <Content Include="registration.html" />
     <Content Include="Scripts\bootstrap.js" />
