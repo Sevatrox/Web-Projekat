@@ -29,6 +29,19 @@ namespace WebProjekat.Models
             return false;
         }
 
+        public static bool FindIfExitsById(int id, string korisnickoIme)
+        {
+            foreach (var item in listaVlasnika)
+            {
+                if (item.KorisnickoIme == korisnickoIme)
+                {
+                    if (item.Id != id)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public static Vlasnik FindAccount(string korisnickoIme, string lozinka)
         {
             foreach (var item in listaVlasnika)
@@ -38,6 +51,7 @@ namespace WebProjekat.Models
             }
             return null;
         }
+
 
         public static List<Vlasnik> GetList()
         {
@@ -51,6 +65,26 @@ namespace WebProjekat.Models
             listaVlasnika.Add(vlasnik);
             UpisJSON(path, listaVlasnika);
             return vlasnik;
+        }
+
+        public static Vlasnik UpdateVlasnik(Vlasnik vlasnik)
+        {
+            foreach (Vlasnik item in listaVlasnika)
+            {
+                if (item.Id == vlasnik.Id)
+                {
+                    item.KorisnickoIme = vlasnik.KorisnickoIme;
+                    item.Lozinka = vlasnik.Lozinka;
+                    item.Ime = vlasnik.Ime;
+                    item.Prezime = vlasnik.Prezime;
+                    item.DatumRodjenja = vlasnik.DatumRodjenja;
+                    item.Email = vlasnik.Email;
+                    item.Pol = vlasnik.Pol;
+                    UpisJSON(path, listaVlasnika);
+                    return item;
+                }
+            }
+            return null;
         }
 
         public static void RemoveVlasnik(Vlasnik vlasnik)

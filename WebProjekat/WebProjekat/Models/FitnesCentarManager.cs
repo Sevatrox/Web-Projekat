@@ -28,7 +28,7 @@ namespace WebProjekat.Models
         public static FitnesCentar AddFitnesCentar(FitnesCentar centar)
         {
             centar.Id = GenerateId();
-            //centar.Vlasnik = new Vlasnik();
+            centar.Vlasnik = new Vlasnik();
             listaCentara.Add(centar);
             UpisJSON(path, listaCentara);
             return centar;

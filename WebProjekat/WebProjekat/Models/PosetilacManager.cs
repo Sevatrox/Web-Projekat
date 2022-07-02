@@ -19,6 +19,19 @@ namespace WebProjekat.Models
             return listaPosetilaca.Find(item => item.Id == id);
         }
 
+        public static bool FindIfExitsById(int id, string korisnickoIme)
+        {
+            foreach (var item in listaPosetilaca)
+            {
+                if (item.KorisnickoIme == korisnickoIme)
+                {
+                    if(item.Id != id)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public static bool FindByUsername(string korisnickoIme)
         {
             foreach (var item in listaPosetilaca)
@@ -52,6 +65,45 @@ namespace WebProjekat.Models
             listaPosetilaca.Add(posetilac);
             UpisJSON(path, listaPosetilaca);
             return posetilac;
+        }
+
+        public static Posetilac UpdatePosetilac(Posetilac posetilac)
+        {
+            foreach (Posetilac item in listaPosetilaca)
+            {
+                if(item.Id == posetilac.Id)
+                {
+                    item.KorisnickoIme = posetilac.KorisnickoIme;
+                    item.Lozinka = posetilac.Lozinka;
+                    item.Ime = posetilac.Ime;
+                    item.Prezime = posetilac.Prezime;
+                    item.DatumRodjenja = posetilac.DatumRodjenja;
+                    item.Email = posetilac.Email;
+                    item.Pol = posetilac.Pol;
+                    foreach (int trening in posetilac.ListaTreningaPosetioca)
+                    {
+                        if (!item.ListaTreningaPosetioca.Contains(trening))
+                            item.ListaTreningaPosetioca.Add(trening);
+                    }
+                    UpisJSON(path, listaPosetilaca);
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        public static Posetilac UpdatePosetilac(int idKorisnika, int idTreninga)
+        {
+            foreach (Posetilac item in listaPosetilaca)
+            {
+                if (item.Id == idKorisnika)
+                {
+                    item.ListaTreningaPosetioca.Add(idTreninga);
+                    UpisJSON(path, listaPosetilaca);
+                    return item;
+                }
+            }
+            return null;
         }
 
         public static void RemovePosetilac(Posetilac posetilac)

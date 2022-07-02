@@ -47,12 +47,10 @@ namespace WebProjekat
                 CenaTreningaSaPersonalnim = 1000.0
             };
 
-            Vlasnik vlasnik = new Vlasnik("Markec", "markec321", "Marko", "Markovic", "M", "marko@gmail.com", new DateTime(1980, 10, 10), Uloga.VLASNIK, new List<int>());
-            Vlasnik vlasnik2 = new Vlasnik("Dozet", "doza123", "Doz", "Simic", "M", "dozet123@gmail.com", new DateTime(1990, 8, 4), Uloga.VLASNIK, new List<int>());
+            Vlasnik vlasnik = new Vlasnik("Markec", "markec321", "Marko", "Markovic", "M", "marko@gmail.com", "10/10/1980", Uloga.VLASNIK, new List<int>());
+            Vlasnik vlasnik2 = new Vlasnik("Dozet", "doza123", "Doz", "Simic", "M", "dozet123@gmail.com", "04/08/1990", Uloga.VLASNIK, new List<int>());
 
-            fitnes.Vlasnik = vlasnik;
-            fitnes2.Vlasnik = vlasnik2;
-
+            
             FitnesCentarManager.AddFitnesCentar(fitnes);
             FitnesCentarManager.AddFitnesCentar(fitnes2);
 
@@ -61,7 +59,10 @@ namespace WebProjekat
 
             VlasnikManager.AddVlasnik(vlasnik);
             VlasnikManager.AddVlasnik(vlasnik2);
-            */
+
+            fitnes.Vlasnik.Id = vlasnik.Id;
+            fitnes2.Vlasnik.Id = vlasnik2.Id;
+
             /*FitnesCentar fitnes = new FitnesCentar()
             {
                 Naziv = "Total Gym",

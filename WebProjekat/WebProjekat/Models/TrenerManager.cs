@@ -29,6 +29,19 @@ namespace WebProjekat.Models
             return false;
         }
 
+        public static bool FindIfExitsById(int id, string korisnickoIme)
+        {
+            foreach (var item in listaTrenera)
+            {
+                if (item.KorisnickoIme == korisnickoIme)
+                {
+                    if (item.Id != id)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public static Trener FindAccount(string korisnickoIme, string lozinka)
         {
             foreach (var item in listaTrenera)
@@ -49,9 +62,30 @@ namespace WebProjekat.Models
         {
             trener.Id = GenerateId();
             trener.ListaTreningaTrenera = new List<int>();
+            trener.AngazovanFitnesCentar = new FitnesCentar();
             listaTrenera.Add(trener);
             UpisJSON(path, listaTrenera);
             return trener;
+        }
+
+        public static Trener UpdateTrener(Trener trener)
+        {
+            foreach (Trener item in listaTrenera)
+            {
+                if (item.Id == trener.Id)
+                {
+                    item.KorisnickoIme = trener.KorisnickoIme;
+                    item.Lozinka = trener.Lozinka;
+                    item.Ime = trener.Ime;
+                    item.Prezime = trener.Prezime;
+                    item.DatumRodjenja = trener.DatumRodjenja;
+                    item.Email = trener.Email;
+                    item.Pol = trener.Pol;
+                    UpisJSON(path, listaTrenera);
+                    return item;
+                }
+            }
+            return null;
         }
 
         public static void RemoveTrener(Trener trener)

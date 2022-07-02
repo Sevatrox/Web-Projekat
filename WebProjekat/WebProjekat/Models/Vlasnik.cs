@@ -9,7 +9,7 @@ namespace WebProjekat.Models
     {
         public List<int> VlasnikFitnesCentri { get; set; }
 
-        public Vlasnik(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, string datumRodjenja, Uloga uloga, List<int> vlasnikFitnesCentri)
+        public Vlasnik(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, string datumRodjenja, Uloga uloga, List<int> vlasnikFitnesCentri, int id = 0)
         {
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
@@ -21,6 +21,7 @@ namespace WebProjekat.Models
             Uloga = uloga;
             VlasnikFitnesCentri = new List<int>();
             VlasnikFitnesCentri = vlasnikFitnesCentri;
+            Id = id;
         }
 
         public Vlasnik() { }

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Form</title>
+    <title>Update</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -11,6 +11,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             logovanje();
+
             $("#usercheck").hide();
             let usernameError = true;
             $("#korisnickoIme").keyup(function () {
@@ -203,20 +204,29 @@
                     let DatumRodjenja = $("#datumRodjenja").val();
                     let Email = $("#email").val();
 
-                    let Uloga = 0;
+                    let Uloga = korisnik.Uloga;
+                    let path;
+                    if (Uloga == 0)
+                        path = '/api/posetilac';
+                    else if (Uloga == 1)
+                        path = '/api/trener';
+                    else
+                        path = '/api/vlasnik';
 
-                    $.post('/api/posetilac', { 'KorisnickoIme': KorisnickoIme, 'Lozinka': Lozinka, 'Ime': Ime, 'Prezime': Prezime, 'Pol': Pol, 'DatumRodjenja': DatumRodjenja, 'Email': Email, 'Uloga': Uloga },
-                        function (result) {
-                            alert('Registrovali ste se, mozete se sada logovati');
+                    $.ajax({
+                        url: path, type: 'PUT', data: { 'Id': korisnik.Id, 'KorisnickoIme': KorisnickoIme, 'Lozinka': Lozinka, 'Ime': Ime, 'Prezime': Prezime, 'Pol': Pol, 'DatumRodjenja': DatumRodjenja, 'Email': Email, 'Uloga': Uloga },
+                        success: function(result) {
+                            alert('Nalog izmenjen');
                             console.log(result);
-                            window.location.href = 'index.html';
-                        }
-                    ).fail(function (xhr) {
-                        alert('Vec potoji korisnik za ovim korisnickim imenom');
+                            sessionStorage.setItem("login", JSON.stringify(result));
+                            window.location.href = 'profil.html';
+                        }, error: function (xhr) {
+                            alert('Vec postoji korisnik za ovim korisnickim imenom');
+                            }
                     });
-                } else {
+ 
+                } else
                     return false;
-                }
             });
 
             $("#logOut").click(function () {
@@ -234,6 +244,22 @@
                     $("#profile").show();
                     $("#logOut").show();
                 }
+            }
+
+            var korisnik = JSON.parse(sessionStorage.getItem("login"));
+            UcitavanjeProfila(korisnik);
+
+            function UcitavanjeProfila(korisnik) {
+                $("#korisnickoIme").val(korisnik.KorisnickoIme);
+                $("#lozinka").val(korisnik.Lozinka);
+                $("#ime").val(korisnik.Ime);
+                $("#prezime").val(korisnik.Prezime);
+                $("#email").val(korisnik.Email);
+                $("#datumRodjenja").val(korisnik.DatumRodjenja);
+                if (korisnik.Pol == "M")
+                    $("#radioM").prop("checked", true);
+                else
+                    $("#radioZ").prop("checked", true);
             }
         });
     </script>
@@ -346,7 +372,6 @@
                     border: 1px solid #42F3FA;
                     box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
                 }
-
     </style>
 </head>
 
@@ -435,7 +460,7 @@
                         </p>
                     </div>
 
-                    <input id="registracija" type="submit" class="btn btn-primary mt-4 signup" value="Registruj se!">
+                    <input id="registracija" type="submit" class="btn btn-primary mt-4 signup" value="Izmeni podatke!">
 
                 </div>
 

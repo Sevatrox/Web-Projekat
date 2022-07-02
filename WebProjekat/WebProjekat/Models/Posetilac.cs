@@ -9,7 +9,7 @@ namespace WebProjekat.Models
     {
         public List<int> ListaTreningaPosetioca { get; set; }
 
-        public Posetilac(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, string datumRodjenja, Uloga uloga, List<int> listaTreningaPosetioca)
+        public Posetilac(string korisnickoIme, string lozinka, string ime, string prezime, string pol, string email, string datumRodjenja, Uloga uloga, List<int> listaTreningaPosetioca, int id = 0)
         {
             KorisnickoIme = korisnickoIme;
             Lozinka = lozinka;
@@ -20,6 +20,7 @@ namespace WebProjekat.Models
             DatumRodjenja = datumRodjenja;
             Uloga = uloga;
             ListaTreningaPosetioca = listaTreningaPosetioca;
+            Id = id;
         }
 
         public Posetilac() { }

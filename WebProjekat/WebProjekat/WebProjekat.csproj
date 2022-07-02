@@ -162,7 +162,9 @@
     <Compile Include="Controllers\KomentarController.cs" />
     <Compile Include="Controllers\KorisnikController.cs" />
     <Compile Include="Controllers\PosetilacController.cs" />
+    <Compile Include="Controllers\TrenerController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VlasnikController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -192,6 +194,7 @@
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="indexFitnesCentar.html" />
+    <Content Include="profil.html" />
     <Content Include="registration.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -227,6 +230,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\sortTable.js" />
+    <Content Include="update.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

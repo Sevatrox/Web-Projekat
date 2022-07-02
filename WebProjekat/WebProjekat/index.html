@@ -15,7 +15,9 @@
             sessionStorage.setItem("id", id);
             window.location.href = 'indexFitnesCentar.html';
         }
+
         $(document).ready(function () {
+            logovanje();
             $.get("/api/fitnesCentar", function (data, status) {
                 let table = '<table id="table" style="height : auto; width : 800px;" class="table sortable table-striped table-dark">';
                 table += '<thead>';
@@ -77,6 +79,13 @@
                 }
             }
 
+            $("#logOut").click(function () {
+                sessionStorage.removeItem("login");
+                logovanje();
+                alert('Izlogovani ste');
+            });
+
+
             $("#loginButton").click(function () {
                 validateUsername();
                 validatePassword();
@@ -86,8 +95,10 @@
                     let Lozinka = $("#lozinka").val();
                     $.post('/api/korisnik', { 'KorisnickoIme': KorisnickoIme, 'Lozinka': Lozinka },
                         function (result) {
+                            sessionStorage.setItem("login", JSON.stringify(result));
+                            sessionStorage.setItem("uloga", result.Uloga);
+                            logovanje();
                             alert('Ulogovani ste');
-                            $("#login").hide();
                             console.log(result);
                         }
                     ).fail(function (xhr) {
@@ -99,6 +110,19 @@
                     return false;
                 }
             });
+
+            function logovanje() {
+                if (sessionStorage.getItem("login") == null) {
+                    $("#login").show();
+                    $("#profile").hide();
+                    $("#logOut").hide();
+                }
+                else {
+                    $("#login").hide();
+                    $("#profile").show();
+                    $("#logOut").show();
+                }
+            }
 
             /*$("#pretraga").on("keyup", function () {
                 var valueNaziv = $("input[name=nazivInput]").val().toLowerCase();
@@ -241,10 +265,18 @@
 
         .thirdDiv {
             position: absolute;
-            top: -50px;
+            top: 0px;
             right: 100%;
             width: 530px;
             height: 300px;
+        }
+
+        .menuDiv {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 45px;
+            width: 400px;
         }
 
         table th:hover {
@@ -269,10 +301,40 @@
             font-weight: bold;
         }
 
+        .navbar {
+            position: absolute;
+            top: -8px;
+            overflow: hidden;
+            background-color: #373b3e;
+            font-family: Arial;
+            height: 45px;
+            width: auto;
+        }
+
+            .navbar a {
+                font-size: 16px;
+                color: white;
+                text-align: center;
+                width: auto;
+                height: 45px;
+                padding: 9.5px;
+                text-decoration: none;
+            }
+
+                .navbar a:hover {
+                    color: #42F3FA;
+                    border: 1px solid #42F3FA;
+                    box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
+                }
 
     </style>
 </head>
 <body>
+    <div class="menuDiv navbar">
+        <a id="home" href="index.html">Pocetna</a>
+        <a id="profile" href="profil.html">Profil</a>
+        <a id="logOut"href="index.html">Log out</a>
+    </div>
     <h1 style="text-align: center;">Fitnes centri u Novom Sadu</h1>
 
     <div class="firstDiv" id="tableContent">
@@ -293,6 +355,7 @@
             <a href="registration.html">Sign up</a>
         </div>
         <div class="thirdDiv">
+
             <h1 style="font-size: 30px; text-align: center">Pretraga centara:</h1>
             <table>
                 <tr>

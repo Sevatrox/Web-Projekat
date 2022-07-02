@@ -40,10 +40,24 @@ namespace WebProjekat.Models
         public static GrupniTrening AddTrening(GrupniTrening trening)
         {
             trening.Id = GenerateId();
-            //trening.SpisakPosetilaca = new List<int>();
+            trening.SpisakPosetilaca = new List<int>();
             listaTreninga.Add(trening);
             UpisJSON(path, listaTreninga);
             return trening;
+        }
+
+        public static GrupniTrening UpdateTrening(int idKorisnika, int idTreninga)
+        {
+            foreach (GrupniTrening item in listaTreninga)
+            {
+                if (item.Id == idTreninga)
+                {
+                    item.SpisakPosetilaca.Add(idKorisnika);
+                    UpisJSON(path, listaTreninga);
+                    return item;
+                }
+            }
+            return null;
         }
 
         public static void RemoveTrening(GrupniTrening trening)

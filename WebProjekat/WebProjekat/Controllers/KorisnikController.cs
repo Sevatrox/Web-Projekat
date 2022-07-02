@@ -22,8 +22,8 @@ namespace WebProjekat.Controllers
             if (PosetilacManager.FindAccount(test.KorisnickoIme, test.Lozinka) != null)
                 return Ok(PosetilacManager.FindAccount(test.KorisnickoIme, test.Lozinka));
 
-            /*else if (TrenerManager.FindAccount(test.KorisnickoIme, test.Lozinka) != null)
-                return Ok(TrenerManager.FindAccount(test.KorisnickoIme, test.Lozinka));*/   //SKLONITI KOMENTAR KADA NAPRAVIM TRENERE
+            else if (TrenerManager.FindAccount(test.KorisnickoIme, test.Lozinka) != null)
+                return Ok(TrenerManager.FindAccount(test.KorisnickoIme, test.Lozinka));
 
             else if (VlasnikManager.FindAccount(test.KorisnickoIme, test.Lozinka) != null)
                 return Ok(VlasnikManager.FindAccount(test.KorisnickoIme, test.Lozinka));
