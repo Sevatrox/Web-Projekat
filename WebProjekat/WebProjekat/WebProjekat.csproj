@@ -232,6 +232,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\sortTable.js" />
+    <Content Include="Scripts\sortTableTrener.js" />
     <Content Include="update.html" />
     <Content Include="updateFitnes.html" />
     <Content Include="urediCentre.html" />

@@ -24,6 +24,11 @@ namespace WebProjekat.Controllers
             return PosetilacManager.GetList();
         }
 
+        public Posetilac Get(int id)
+        {
+            return PosetilacManager.GetPosetilac(id);
+        }
+
         public IHttpActionResult Post(Posetilac posetilac)
         {
             if (posetilac == null)

@@ -48,7 +48,7 @@
 
                 profil += '</tbody>';
                 profil += '</table>';
-                $("#tableContent").append(profil);
+                $(profil).insertBefore("#trenerTreninzi");
                 console.log('profil loaded');
             }
 
@@ -126,11 +126,65 @@
                     $('#tabelaTreninga').append(tabela);
 
                 }
+                else if (korisnik.Uloga == 1) {
+                    let tabela = '<table id="tableTrener" style="height : auto; width : 1000px;" class="table sortable table-striped table-dark">';
+                    tabela += '<thead>';
+                    tabela += '<tr><th scope="col" onclick="sortTableTrener(0)">Naziv treninga</th><th scope="col" onclick="sortTableTrener(1)">Tip</th><th scope="col" onclick="sortTableTrener(2)">Datum i vreme</th><th scope="col">Trajanje treninga</th><th scope="col">Fitnes centar</th><th scope="col">Maksimalan broj posetilaca</th><th scope="col">Broj prijavljenih posetilaca</th></tr>';
+                    tabela += '</thead>';
+                    tabela += '<tbody>';
+
+                    var listaListaPosetilaca = new Array();
+                    for (trening in korisnik.ListaTreningaTrenera) {
+                        for (element in data) {
+                            if (korisnik.ListaTreningaTrenera[trening] == data[element].Id && proveraDatuma(data[element].DatumVremeneTreninga)) {
+
+                                let trening = '<td name="naziv" scope="row">' + data[element].Naziv + '</td>';
+                                let tip;
+                                if (data[element].TipTreninga == 0)
+                                    tip = "Yoga";
+                                else if (data[element].TipTreninga == 1)
+                                    tip = "Les mills tone";
+                                else
+                                    tip = "Body pump";
+                                trening += '<td name="tip">' + tip + '</td>';
+                                trening += '<td>' + data[element].DatumVremeneTreninga + '</td>';
+                                trening += '<td>' + data[element].TrajanjeTreninga + '</td>';
+                                trening += '<td >' + data[element].FitnesCentar.Naziv + '</td>';
+                                trening += '<td>' + data[element].MaxBrojPosetilaca + '</td>';
+                                trening += '<td>' + data[element].SpisakPosetilaca.length + '</td>';
+                                listaListaPosetilaca.push(data[element].SpisakPosetilaca)
+
+                                tabela += '<tr>' + trening + '</tr>';
+                            }
+                        }
+                    }
+                    tabela += '</tbody>';
+                    tabela += '</table>';
+                    $('#tabelaTreninga').append(tabela);
+
+                    let divs = '<div class="spiskoviButtons">';
+
+                    for (listaPosetilaca in listaListaPosetilaca) {
+                        divs += '<div style="padding-top:10px" class="dropdown">';
+                        divs += '<button class="dropbtn">Spisak</button>';
+                        divs += '<div class="dropdown-content">';
+                        let lista = listaListaPosetilaca[listaPosetilaca];
+                        for (posetilac in lista) {
+                            $.get("/api/posetilac/" + lista[posetilac], function (dataPosetioci, status) {
+                                console.log(dataPosetioci.KorisnickoIme);
+                                divs += '<a href="#">' + dataPosetioci.KorisnickoIme + '</a>';
+                            });
+                        }
+                        divs += '</div>';
+                        divs += '</div>';
+                    }
+
+                    divs += '</div>';
+                    $('#tabelaTreninga').append(divs);
+                }
                 else
                     return;
             }
-
-
 
             function proveraDatuma(datumTreninga) {
                 let today = new Date();
@@ -173,6 +227,38 @@
                 let value = $(this).val().toLowerCase();
                 $("#table tbody td[name=fitnesCentar]").filter(function () {
                     $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+
+
+            $("#pretragaNazivTrener").on("keyup", function () {
+                let value = $(this).val().toLowerCase();
+                $("#tableTrener tbody td[name=naziv]").filter(function () {
+                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            $("#pretragaAdresaTrener").on("keyup", function () {
+                let value = $(this).val().toLowerCase();
+                $("#tableTrener tbody td[name=tip]").filter(function () {
+                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1);
+
+                });
+            });
+            $(".pretragaGodina").on("keyup", function () {
+                let value1 = $("#pretragaGodina1").val();
+                let value2 = $("#pretragaGodina2").val();
+                console.log(value1);
+                console.log(value2);
+                $("#tableTrener tbody td[name=godina]").filter(function () {
+                    if (value1 !== "" && value2 === "")
+                        $(this).parent().toggle($(this).text() - value1 >= 0);
+                    else if (value1 === "" && value2 !== "")
+                        $(this).parent().toggle(value2 - $(this).text() >= 0);
+                    else if (value1 !== "" && value2 !== "")
+                        $(this).parent().toggle(value2 - $(this).text() >= 0 && $(this).text() - value1 >= 0);
+                    else if (value1 === "" && value2 === "")
+                        $(this).parent().show();
                 });
             });
 
@@ -222,6 +308,17 @@
                         $("#hideDiv").show();
                     }
 
+                    if (korisnik.Uloga != 1) {
+                        $("#hideDivTrener").hide();
+                        $("#hideNaslovTrener").hide();
+                        $("#trenerTreninzi").hide();
+                    }
+                    else {
+                        $("#hideDivTrener").show();
+                        $("#hideNaslovTrener").show();
+                        $("#trenerTreninzi").show();
+                    }
+
                     if (korisnik.Uloga != 2) {
                         $("#manageFitness").hide();
                     }
@@ -237,11 +334,12 @@
         });
     </script>
     <script src="Scripts/sortTable.js"></script>
+    <script src="Scripts/sortTableTrener.js"></script>
     <style>
         .firstDiv {
             position: absolute;
             top: 70px;
-            right:5px;
+            right: 5px;
             width: auto;
             height: auto;
         }
@@ -253,12 +351,21 @@
             width: auto;
             height: auto;
         }
+
         .thirdDiv {
             position: absolute;
             top: 0px;
             right: 100%;
             width: 450px;
             height: 300px;
+        }
+
+        .spiskoviButtons {
+            position: absolute;
+            top: 100px;
+            left: 102%;
+            width: auto;
+            height: auto;
         }
 
         .navbar {
@@ -291,7 +398,14 @@
             text-align: center;
             vertical-align: middle;
         }
+
         #table th:hover {
+            color: #42F3FA;
+            border: 1px solid #42F3FA;
+            box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
+        }
+
+        #tableTrener th:hover {
             color: #42F3FA;
             border: 1px solid #42F3FA;
             box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
@@ -309,6 +423,46 @@
             font-weight: bold;
         }
 
+        .dropbtn {
+            background: #4E9CAF;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
     </style>
 </head>
 <body>
@@ -341,11 +495,38 @@
             </table>
 
         </div>
+        <h3 id="hideNaslovTrener" style="text-align: center;">Odradjeni grupni treninzi</h3>
+        <div id="hideDivTrener" class="thirdDiv">
+
+            <h1 style="font-size: 30px; text-align: center">Pretraga grupnih treninga:</h1>
+            <table>
+                <tr>
+                    <td><label>Pretraga po nazivu treninga: </label></td>
+                    <td><input name="nazivInput" id="pretragaNazivTrener" type="text" placeholder="Search..."></td>
+                </tr>
+                <tr>
+                    <td><label>Pretraga po tipu treninga: </label></td>
+                    <td><input name="adresaInput" id="pretragaAdresaTrener" type="text" placeholder="Search..."></td>
+                </tr>
+                <tr>
+                    <td><label>Pretraga po datumu(godina): </label></td>
+                    <td>
+                        <label style="padding-left:5px;">Min:</label><input style="width: 50px;" name="godinaInput" class="pretragaGodina" id="pretragaGodina1" type="text">
+                        <label>Max:</label><input style="width: 50px;" name="godinaInput" class="pretragaGodina" id="pretragaGodina2" type="text">
+                    </td>
+                </tr>
+            </table>
+
+        </div>
     </div>
     <div class="secondDiv" id="tableContent">
         <h1 style="text-align: center;">Profil korisnika</h1>
+        <div id="trenerTreninzi">
+            <button style="padding-left:5px;display:inline;padding-top:0px" class="buttonKomentar">Izmeni treninge</button>
+            <button style="padding-left:5px;display:inline;padding-top:0px" class="buttonKomentar">Dodaj treninge</button>
+            <button style="padding-left:5px;display:inline;padding-top:0px" class="buttonKomentar">Izbrisi treninge</button>
+        </div>
     </div>
-
 
 </body>
 </html>

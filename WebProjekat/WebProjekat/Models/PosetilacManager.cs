@@ -62,6 +62,17 @@ namespace WebProjekat.Models
             return listaPosetilaca;
         }
 
+        public static Posetilac GetPosetilac(int id)
+        {
+            listaPosetilaca = UcitavanjeJSON(path);
+            foreach (var item in listaPosetilaca)
+            {
+                if (item.Id == id)
+                    return item;
+            }
+            return null;
+        }
+
         public static Posetilac AddPosetilac(Posetilac posetilac)
         {
             listaPosetilaca = UcitavanjeJSON(path);
