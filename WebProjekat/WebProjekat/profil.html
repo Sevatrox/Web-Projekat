@@ -6,8 +6,8 @@
     <title>Profil</title>
     <script src="Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript">
-        function napisiKomentar(fitnesCentar) {
-            sessionStorage.setItem("fitnesCentar", fitnesCentar);
+        function napisiKomentar(fitnesCentarId) {
+            sessionStorage.setItem("fitnesCentarId", fitnesCentarId);
             window.location.href = 'pisanjeKomentara.html';
         }
         $(document).ready(function () {
@@ -115,8 +115,8 @@
                                 trening += '<td>' + data[element].DatumVremeneTreninga + '</td>';
                                 trening += '<td>' + data[element].MaxBrojPosetilaca + '</td>';
                                 trening += '<td>' + data[element].SpisakPosetilaca.length + '</td>';
-                                let fitnesCentar = data[element].FitnesCentar
-                                trening += '<td><button id="buttonKomentar" class="buttonKomentar" onclick="napisiKomentar(\'' + fitnesCentar + '\')">Napisi komentar</button></td>';
+                                let fitnesCentarId = data[element].FitnesCentar.Id
+                                trening += '<td><button id="buttonKomentar" class="buttonKomentar" onclick="napisiKomentar(\'' + fitnesCentarId + '\')">Napisi komentar</button></td>';
                                 tabela += '<tr>' + trening + '</tr>';
                             }
                         }
@@ -199,6 +199,7 @@
 
             $("#logOut").click(function () {
                 sessionStorage.removeItem("login");
+                sessionStorage.removeItem("uloga");
                 logovanje();
                 alert('Izlogovani ste');
             });
@@ -207,9 +208,27 @@
                 if (sessionStorage.getItem("login") == null) {
                     $("#profile").hide();
                     $("#update").hide();
+                    $("#manageFitness").hide();
                     $("#logOut").hide();
                 }
                 else {
+                    var korisnik = JSON.parse(sessionStorage.getItem("login"));
+                    if (korisnik.Uloga != 0) {
+                        $("#hideNaslov").hide();
+                        $("#hideDiv").hide();
+                    }
+                    else {
+                        $("#hideNaslov").show();
+                        $("#hideDiv").show();
+                    }
+
+                    if (korisnik.Uloga != 2) {
+                        $("#manageFitness").hide();
+                    }
+                    else {
+                        $("#manageFitness").show();
+                    }
+
                     $("#profile").show();
                     $("#update").show();
                     $("#logOut").show();
@@ -297,12 +316,13 @@
         <a id="home" href="index.html">Pocetna</a>
         <a id="profile" href="profil.html">Profil</a>
         <a id="update" href="update.html">Izmena podataka</a>
+        <a id="manageFitness" href="urediCentre.html">Uredi centre</a>
         <a id="logOut" href="index.html">Log out</a>
     </div>
 
     <div class="firstDiv" id="tabelaTreninga">
-        <h3 style="text-align: center;">Odradjeni grupni treninzi</h3>
-        <div class="thirdDiv">
+        <h3 id="hideNaslov" style="text-align: center;">Odradjeni grupni treninzi</h3>
+        <div id="hideDiv" class="thirdDiv">
 
             <h1 style="font-size: 30px; text-align: center">Pretraga grupnih treninga:</h1>
             <table>

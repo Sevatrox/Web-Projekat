@@ -16,6 +16,7 @@ namespace WebProjekat.Models
 
         public static GrupniTrening FindById(int id)
         {
+            listaTreninga = UcitavanjeJSON(path);
             return listaTreninga.Find(item => item.Id == id);
         }
 
@@ -39,6 +40,7 @@ namespace WebProjekat.Models
 
         public static GrupniTrening AddTrening(GrupniTrening trening)
         {
+            listaTreninga = UcitavanjeJSON(path);
             trening.Id = GenerateId();
             trening.SpisakPosetilaca = new List<int>();
             listaTreninga.Add(trening);
@@ -48,6 +50,7 @@ namespace WebProjekat.Models
 
         public static GrupniTrening UpdateTrening(int idKorisnika, int idTreninga)
         {
+            listaTreninga = UcitavanjeJSON(path);
             foreach (GrupniTrening item in listaTreninga)
             {
                 if (item.Id == idTreninga)

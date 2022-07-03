@@ -17,8 +17,9 @@ namespace WebProjekat.Models
         public int MaxBrojPosetilaca { get; set; }
         public List<int> SpisakPosetilaca { get; set; }
         public Trener Trener { get; set; }
+        public bool Obrisan { get; set; }
 
-        public GrupniTrening(string naziv, TipTreninga tipTreninga, FitnesCentar fitnesCentar, int trajanjeTreninga, DateTime datumVremeneTreninga, int maxBrojPosetilaca, List<int> spisakPosetilaca, Trener trener)
+        public GrupniTrening(string naziv, TipTreninga tipTreninga, FitnesCentar fitnesCentar, int trajanjeTreninga, DateTime datumVremeneTreninga, int maxBrojPosetilaca, List<int> spisakPosetilaca, Trener trener, bool obrisan = false)
         {
             Naziv = naziv;
             TipTreninga = tipTreninga;
@@ -29,6 +30,7 @@ namespace WebProjekat.Models
             MaxBrojPosetilaca = maxBrojPosetilaca;
             SpisakPosetilaca = spisakPosetilaca;
             Trener = trener;
+            Obrisan = obrisan;
         }
 
         public GrupniTrening() { }

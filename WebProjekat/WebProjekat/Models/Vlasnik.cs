@@ -19,7 +19,6 @@ namespace WebProjekat.Models
             Email = email;
             DatumRodjenja = datumRodjenja;
             Uloga = uloga;
-            VlasnikFitnesCentri = new List<int>();
             VlasnikFitnesCentri = vlasnikFitnesCentri;
             Id = id;
         }

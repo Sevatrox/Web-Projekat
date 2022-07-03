@@ -16,11 +16,13 @@ namespace WebProjekat.Models
 
         public static Vlasnik FindById(int id)
         {
+            listaVlasnika = UcitavanjeJSON(path);
             return listaVlasnika.Find(item => item.Id == id);
         }
 
         public static bool FindByUsername(string korisnickoIme)
         {
+            listaVlasnika = UcitavanjeJSON(path);
             foreach (var item in listaVlasnika)
             {
                 if (item.KorisnickoIme == korisnickoIme)
@@ -31,6 +33,7 @@ namespace WebProjekat.Models
 
         public static bool FindIfExitsById(int id, string korisnickoIme)
         {
+            listaVlasnika = UcitavanjeJSON(path);
             foreach (var item in listaVlasnika)
             {
                 if (item.KorisnickoIme == korisnickoIme)
@@ -44,6 +47,7 @@ namespace WebProjekat.Models
 
         public static Vlasnik FindAccount(string korisnickoIme, string lozinka)
         {
+            listaVlasnika = UcitavanjeJSON(path);
             foreach (var item in listaVlasnika)
             {
                 if (item.KorisnickoIme == korisnickoIme && item.Lozinka == lozinka)
@@ -61,6 +65,7 @@ namespace WebProjekat.Models
 
         public static Vlasnik AddVlasnik(Vlasnik vlasnik)
         {
+            listaVlasnika = UcitavanjeJSON(path);
             vlasnik.Id = GenerateId();
             listaVlasnika.Add(vlasnik);
             UpisJSON(path, listaVlasnika);
@@ -69,6 +74,8 @@ namespace WebProjekat.Models
 
         public static Vlasnik UpdateVlasnik(Vlasnik vlasnik)
         {
+            listaVlasnika = UcitavanjeJSON(path);
+
             foreach (Vlasnik item in listaVlasnika)
             {
                 if (item.Id == vlasnik.Id)
@@ -80,6 +87,14 @@ namespace WebProjekat.Models
                     item.DatumRodjenja = vlasnik.DatumRodjenja;
                     item.Email = vlasnik.Email;
                     item.Pol = vlasnik.Pol;
+                    if (vlasnik.VlasnikFitnesCentri != null)
+                    {
+                        foreach (int centar in vlasnik.VlasnikFitnesCentri)
+                        {
+                            if(!item.VlasnikFitnesCentri.Contains(centar))
+                                item.VlasnikFitnesCentri.Add(centar);
+                        }
+                    }
                     UpisJSON(path, listaVlasnika);
                     return item;
                 }

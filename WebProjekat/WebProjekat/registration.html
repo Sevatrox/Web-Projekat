@@ -220,6 +220,7 @@
 
             $("#logOut").click(function () {
                 sessionStorage.removeItem("login");
+                sessionStorage.removeItem("uloga");
                 logovanje();
                 alert('Izlogovani ste');
             });

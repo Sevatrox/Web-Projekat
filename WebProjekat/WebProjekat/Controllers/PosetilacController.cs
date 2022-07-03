@@ -19,6 +19,11 @@ namespace WebProjekat.Controllers
             public Parametri(int string1, int string2) { idKorisnika = string1; idTreninga = string2; }
         }
 
+        public List<Posetilac> Get()
+        {
+            return PosetilacManager.GetList();
+        }
+
         public IHttpActionResult Post(Posetilac posetilac)
         {
             if (posetilac == null)
@@ -58,6 +63,14 @@ namespace WebProjekat.Controllers
                 return BadRequest();
             }
             return Ok(PosetilacManager.UpdatePosetilac(posetilac));
+        }
+        [HttpDelete]
+        public IHttpActionResult Delete(Posetilac posetilac)
+        {
+            if (posetilac.Id == 0)
+                return BadRequest();
+            else
+                return Ok(PosetilacManager.RemovePosetilac(posetilac));
         }
     }
 }

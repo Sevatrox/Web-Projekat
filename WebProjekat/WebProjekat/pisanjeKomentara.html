@@ -63,23 +63,27 @@
             }
 
             $("#registracija").click(function () {
-                if (validateOcena() && validateKomentar) {
+                if (validateOcena() && validateKomentar()) {
                     var korisnik = JSON.parse(sessionStorage.getItem("login"));
-                    var fitnesCentar = sessionStorage.getItem("fitnesCentar");
+                    var fitnesCentarId = sessionStorage.getItem("fitnesCentarId");
                     let komentar = $("#komentar").val();
                     let ocena = $("#ocena").val();
-                    $.post('/api/komentar', { 'Posetilac': korisnik, 'FitnesCentar': fitnesCentar, 'TekstKomentara': komentar, 'Ocena': ocena },
-                        function (result) {
-                            alert('Napisali ste komentar, ceka se da ga odobri vlasnik');
-                            console.log(result);
-                            window.location.href = 'index.html';
-                        }
-                    );
+                    $.get("/api/fitnesCentar/" + fitnesCentarId, function (data, status) {
+                        $.post('/api/komentar', { 'Posetilac': korisnik, 'FitnesCentar': data, 'TekstKomentara': komentar, 'Ocena': ocena },
+                            function (result) {
+                                alert('Napisali ste komentar, ceka se da ga odobri vlasnik');
+                                console.log(result);
+                                window.location.href = 'index.html';
+                            }
+                        );
+                    });
+                    
                 }
             });
 
             $("#logOut").click(function () {
                 sessionStorage.removeItem("login");
+                sessionStorage.removeItem("uloga");
                 logovanje();
                 alert('Izlogovani ste');
             });

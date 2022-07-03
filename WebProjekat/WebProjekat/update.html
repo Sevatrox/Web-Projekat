@@ -230,6 +230,7 @@
 
             $("#logOut").click(function () {
                 sessionStorage.removeItem("login");
+                sessionStorage.removeItem("uloga");
                 logovanje();
                 alert('Izlogovani ste');
             });
@@ -237,10 +238,18 @@
             function logovanje() {
                 if (sessionStorage.getItem("login") == null) {
                     $("#profile").hide();
+                    $("#manageFitness").hide();
                     $("#logOut").hide();
                 }
                 else {
                     $("#profile").show();
+                    var korisnik = JSON.parse(sessionStorage.getItem("login"));
+                    if (korisnik.Uloga != 2) {
+                        $("#manageFitness").hide();
+                    }
+                    else {
+                        $("#manageFitness").show();
+                    }
                     $("#logOut").show();
                 }
             }
@@ -378,6 +387,7 @@
     <div class="menuDiv navbar">
         <a id="home" href="index.html">Pocetna</a>
         <a id="profile" href="profil.html">Profil</a>
+        <a id="manageFitness" href="urediCentre.html">Uredi centre</a>
         <a id="logOut" href="index.html">Log out</a>
     </div>
     <div class="container mt-5 mb-5">

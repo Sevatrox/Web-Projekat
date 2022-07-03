@@ -16,11 +16,13 @@ namespace WebProjekat.Models
 
         public static Posetilac FindById(int id)
         {
+            listaPosetilaca = UcitavanjeJSON(path);
             return listaPosetilaca.Find(item => item.Id == id);
         }
 
         public static bool FindIfExitsById(int id, string korisnickoIme)
         {
+            listaPosetilaca = UcitavanjeJSON(path);
             foreach (var item in listaPosetilaca)
             {
                 if (item.KorisnickoIme == korisnickoIme)
@@ -34,6 +36,7 @@ namespace WebProjekat.Models
 
         public static bool FindByUsername(string korisnickoIme)
         {
+            listaPosetilaca = UcitavanjeJSON(path);
             foreach (var item in listaPosetilaca)
             {
                 if (item.KorisnickoIme == korisnickoIme)
@@ -44,6 +47,7 @@ namespace WebProjekat.Models
 
         public static Posetilac FindAccount(string korisnickoIme, string lozinka)
         {
+            listaPosetilaca = UcitavanjeJSON(path);
             foreach (var item in listaPosetilaca)
             {
                 if (item.KorisnickoIme == korisnickoIme && item.Lozinka == lozinka)
@@ -60,6 +64,7 @@ namespace WebProjekat.Models
 
         public static Posetilac AddPosetilac(Posetilac posetilac)
         {
+            listaPosetilaca = UcitavanjeJSON(path);
             posetilac.Id = GenerateId();
             posetilac.ListaTreningaPosetioca = new List<int>();
             listaPosetilaca.Add(posetilac);
@@ -69,6 +74,7 @@ namespace WebProjekat.Models
 
         public static Posetilac UpdatePosetilac(Posetilac posetilac)
         {
+            listaPosetilaca = UcitavanjeJSON(path);
             foreach (Posetilac item in listaPosetilaca)
             {
                 if(item.Id == posetilac.Id)
@@ -97,10 +103,19 @@ namespace WebProjekat.Models
             return null;
         }
 
-        public static void RemovePosetilac(Posetilac posetilac)
+        public static bool RemovePosetilac(Posetilac posetilac)
         {
-            listaPosetilaca.Remove(posetilac);
-            UpisJSON(path, listaPosetilaca);
+            listaPosetilaca = UcitavanjeJSON(path);
+            foreach (var item in listaPosetilaca)
+            {
+                if(item.Id == posetilac.Id)
+                {
+                    listaPosetilaca.Remove(item);
+                    UpisJSON(path, listaPosetilaca);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static int GenerateId()

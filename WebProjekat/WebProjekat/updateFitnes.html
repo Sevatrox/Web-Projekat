@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Update fitness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            logovanje();
+            addCentar();
+
+            function addCentar() {
+                $("#nameCheck").hide();
+                $("#adressCheck").hide();
+                $("#adressCheck").hide();
+                $("#godinaCheck").hide();
+                $("#cena1Check").hide();
+                $("#cena2Check").hide();
+                $("#cena3Check").hide();
+                $("#cena4Check").hide();
+                $("#cena5Check").hide();
+            }
+
+            $("#naziv").keyup(function () {
+                validateNaziv();
+            });
+
+            $("#adresa").keyup(function () {
+                validateAdresa();
+            });
+
+            $("#godina").keyup(function () {
+                validateGodina();
+            });
+
+            $("#mesecnaCena").keyup(function () {
+                validateMesecnaCena();
+            });
+
+            $("#godisnjaCena").keyup(function () {
+                validateGodisnjaCena();
+            });
+
+            $("#treningCena").keyup(function () {
+                validateTreningCena();
+            });
+
+
+            $("#grupniCena").keyup(function () {
+                validateGrupniCena();
+            });
+
+            $("#grupniPersonalniCena").keyup(function () {
+                validateGrupniPersonalniCena();
+            });
+
+
+            function validateNaziv() {
+                let naziv = $("#naziv").val();
+                if (naziv == "") {
+                    $("#nameCheck").html('Unesite naziv fitnes centra');
+                    $("#nameCheck").show();
+                    return false;
+                }
+                else if (naziv.length < 6) {
+                    $("#nameCheck").html('Naziv mora biti vise od 6 slova');
+                    $("#nameCheck").show();
+                    return false;
+                }
+                $("#nameCheck").hide();
+                return true;
+            }
+
+            function validateAdresa() {
+                let adresa = $("#adresa").val();
+                if (adresa == "") {
+                    $("#adressCheck").html('Unesite adresu fitnes centra');
+                    $("#adressCheck").show();
+                    return false;
+                }
+                else if (adresa.length < 6) {
+                    $("#adressCheck").html('Adresa mora biti vise od 6 slova');
+                    $("#adressCheck").show();
+                    return false;
+                }
+                $("#adressCheck").hide();
+                return true;
+            }
+
+            function validateGodina() {
+                let godina = $("#godina").val();
+                if (godina == "") {
+                    $("#godinaCheck").html('Unesite godinu');
+                    $("#godinaCheck").show();
+                    return false;
+                }
+                else if (isNaN(godina)) {
+                    $("#godinaCheck").html('Unesite brojevima godinu');
+                    $("#godinaCheck").show();
+                    return false;
+                }
+                else if (godina < 1900 || godina > 2022) {
+                    $("#godinaCheck").html('Unesite realnu godinu');
+                    $("#godinaCheck").show();
+                    return false;
+                }
+                $("#godinaCheck").hide();
+                return true;
+            }
+
+            function validateMesecnaCena() {
+                let cena = $("#mesecnaCena").val();
+                if (cena == "") {
+                    $("#cena1Check").html('Unesite mesecnu cenu');
+                    $("#cena1Check").show();
+                    return false;
+                }
+                else if (isNaN(cena)) {
+                    $("#cena1Check").html('Unesite brojevima cenu');
+                    $("#cena1Check").show();
+                    return false;
+                }
+                else if (cena <= 0) {
+                    $("#cena1Check").html('Cena ne moze biti manja od 0');
+                    $("#cena1Check").show();
+                    return false;
+                }
+                $("#cena1Check").hide();
+                return true;
+            }
+
+            function validateGodisnjaCena() {
+                let cena = $("#godisnjaCena").val();
+                if (cena == "") {
+                    $("#cena2Check").html('Unesite godisnju cenu');
+                    $("#cena2Check").show();
+                    return false;
+                }
+                else if (isNaN(cena)) {
+                    $("#cena2Check").html('Unesite brojevima cenu');
+                    $("#cena2Check").show();
+                    return false;
+                }
+                else if (cena <= 0) {
+                    $("#cena2Check").html('Cena ne moze biti manja od 0');
+                    $("#cena2Check").show();
+                    return false;
+                }
+                $("#cena2Check").hide();
+                return true;
+            }
+
+            function validateTreningCena() {
+                let cena = $("#treningCena").val();
+                if (cena == "") {
+                    $("#cena3Check").html('Unesite cenu jednog treninga');
+                    $("#cena3Check").show();
+                    return false;
+                }
+                else if (isNaN(cena)) {
+                    $("#cena3Check").html('Unesite brojevima cenu');
+                    $("#cena3Check").show();
+                    return false;
+                }
+                else if (cena <= 0) {
+                    $("#cena3Check").html('Cena ne moze biti manja od 0');
+                    $("#cena3Check").show();
+                    return false;
+                }
+                $("#cena3Check").hide();
+                return true;
+            }
+
+            function validateGrupniCena() {
+                let cena = $("#grupniCena").val();
+                if (cena == "") {
+                    $("#cena4Check").html('Unesite cenu jednog grupnog treninga');
+                    $("#cena4Check").show();
+                    return false;
+                }
+                else if (isNaN(cena)) {
+                    $("#cena4Check").html('Unesite brojevima cenu');
+                    $("#cena4Check").show();
+                    return false;
+                }
+                else if (cena <= 0) {
+                    $("#cena4Check").html('Cena ne moze biti manja od 0');
+                    $("#cena4Check").show();
+                    return false;
+                }
+                $("#cena4Check").hide();
+                return true;
+            }
+
+            function validateGrupniPersonalniCena() {
+                let cena = $("#grupniPersonalniCena").val();
+                if (cena == "") {
+                    $("#cena5Check").html('Unesite cenu jednog grupnog treninga sa personalnimg trenerom');
+                    $("#cena5Check").show();
+                    return false;
+                }
+                else if (isNaN(cena)) {
+                    $("#cena5Check").html('Unesite brojevima cenu');
+                    $("#cena5Check").show();
+                    return false;
+                }
+                else if (cena <= 0) {
+                    $("#cena5Check").html('Cena ne moze biti manja od 0');
+                    $("#cena5Check").show();
+                    return false;
+                }
+                $("#cena5Check").hide();
+                return true;
+            }
+
+            $("#registracija").click(function () {
+                if (validateNaziv() && validateAdresa() && validateGodina() && validateMesecnaCena() && validateGodisnjaCena() && validateTreningCena() && validateGrupniCena() && validateGrupniPersonalniCena()) {
+                    var korisnik = JSON.parse(sessionStorage.getItem("login"));
+                    var fitnesUpdate = JSON.parse(sessionStorage.getItem("fitnesUpdate"));
+
+                    let naziv = $("#naziv").val();
+                    let adresa = $("#adresa").val();
+                    let godina = $("#godina").val();
+                    let mesecnaCena = $("#mesecnaCena").val();
+                    let godisnjaCena = $("#godisnjaCena").val();
+                    let treningCena = $("#treningCena").val();
+                    let grupniCena = $("#grupniCena").val();
+                    let grupniPersonalniCena = $("#grupniPersonalniCena").val();
+
+                    $.ajax({
+                        url: '/api/fitnesCentar/', type: 'PUT', data: { 'Id': fitnesUpdate.Id, 'Naziv': naziv, 'Adresa': adresa, 'GodinaOtvaranja': godina, 'Vlasnik': korisnik, 'MesecnaCena': mesecnaCena, 'GodisnjaCena': godisnjaCena, 'CenaTreninga': treningCena, 'CenaGrupnogTreninga': grupniCena, 'CenaTreningaSaPersonalnim': grupniPersonalniCena },
+                        success: function (result) {
+                            alert('Uspesno izmenjen fitnes centar');
+                            window.location.href = 'index.html';
+                        }, error: function (xhr) {
+                            alert('Desila se greska pri izmeni fitnes centra');
+                        }
+                    });
+                }
+                else
+                    return;
+            });
+
+            $("#logOut").click(function () {
+                sessionStorage.removeItem("login");
+                sessionStorage.removeItem("uloga");
+                logovanje();
+                alert('Izlogovani ste');
+            });
+
+            function logovanje() {
+                if (sessionStorage.getItem("login") == null) {
+                    $("#profile").hide();
+                    $("#manageFitness").hide();
+                    $("#logOut").hide();
+                }
+                else {
+                    $("#profile").show();
+                    var korisnik = JSON.parse(sessionStorage.getItem("login"));
+                    if (korisnik.Uloga != 2) {
+                        $("#manageFitness").hide();
+                    }
+                    else {
+                        $("#manageFitness").show();
+                    }
+                    $("#logOut").show();
+                }
+            }
+
+            var fitnesUpdate = JSON.parse(sessionStorage.getItem("fitnesUpdate"));
+            UcitavanjeCentra(fitnesUpdate);
+
+            function UcitavanjeCentra(fitnesUpdate) {
+                $("#naziv").val(fitnesUpdate.Naziv);
+                $("#adresa").val(fitnesUpdate.Adresa);
+                $("#godina").val(fitnesUpdate.GodinaOtvaranja);
+                $("#mesecnaCena").val(fitnesUpdate.MesecnaCena);
+                $("#godisnjaCena").val(fitnesUpdate.GodisnjaCena);
+                $("#treningCena").val(fitnesUpdate.CenaTreninga);
+                $("#grupniCena").val(fitnesUpdate.CenaGrupnogTreninga);
+                $("#grupniPersonalniCena").val(fitnesUpdate.CenaTreningaSaPersonalnim);
+
+            }
+        });
+    </script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+        body {
+            background-color: #535fe6;
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+        }
+
+        .height {
+            height: 100vh;
+        }
+
+        .card {
+            border: none;
+            padding: 20px;
+            background-color: #373b3e;
+            color: #fff;
+        }
+
+        .form-input {
+            position: relative;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+            .form-input i {
+                position: absolute;
+                font-size: 18px;
+                top: 15px;
+                left: 10px;
+            }
+
+        .form-control {
+            height: 50px;
+            border: none;
+            border-bottom: 2px solid #262626;
+            outline: none;
+            color: #fff;
+            background: transparent;
+            font-size: 16px;
+            text-indent: 24px;
+            box-sizing: border-box
+        }
+
+            .form-control:focus {
+                background-color: #25272a;
+                box-shadow: none;
+                color: #fff;
+                border-color: #4f63e7;
+            }
+
+            .form-control:hover {
+                color: #42F3FA;
+                border: 2px solid #42F3FA;
+                box-shadow: 0 0 5px rgba(0, 255, 0, .3), 0 0 10px rgba(0, 255, 0, .2), 0 0 15px rgba(0, 255, 0, .1), 0 2px 0 black
+            }
+
+        .form-check-label {
+            margin-top: 2px;
+            font-size: 14px;
+        }
+
+        .signup {
+            height: 50px;
+            font-size: 14px;
+        }
+
+        a:hover {
+            color: #00ffff
+        }
+
+        a {
+            color: #fff;
+        }
+
+        .menuDiv {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 45px;
+            width: 400px;
+        }
+
+        .navbar {
+            position: absolute;
+            top: -8px;
+            overflow: hidden;
+            background-color: #373b3e;
+            font-family: Arial;
+            height: 45px;
+            width: auto;
+        }
+
+            .navbar a {
+                font-size: 16px;
+                color: white;
+                text-align: center;
+                width: auto;
+                height: 45px;
+                padding: 9.5px;
+                text-decoration: none;
+            }
+
+                .navbar a:hover {
+                    color: #42F3FA;
+                    border: 1px solid #42F3FA;
+                    box-shadow: 0 0 5px rgba(0,255,0,.3), 0 0 10px rgba(0,255,0,.2), 0 0 15px rgba(0,255,0,.1), 0 2px 0 black
+                }
+    </style>
+</head>
+
+<body>
+    <div class="menuDiv navbar">
+        <a id="home" href="index.html">Pocetna</a>
+        <a id="profile" href="profil.html">Profil</a>
+        <a id="manageFitness" href="urediCentre.html">Uredi centre</a>
+        <a id="logOut" href="index.html">Log out</a>
+    </div>
+    <div class="container mt-5 mb-5">
+
+        <div class="row d-flex align-items-center justify-content-center">
+
+            <div class="col-md-6">
+
+                <div class="card px-5 py-5">
+
+                    <div class="form-input">
+
+                        <i class="fa fa-user"></i>
+                        <input id="naziv" name="naziv" type="text" class="form-control"
+                               placeholder="Naziv fitnes centra">
+                        <p id="nameCheck" style="color: red;">
+                            Name is missing
+                        </p>
+                    </div>
+
+                    <div class="form-input">
+
+                        <i class="fa fa-lock"></i>
+                        <input id="adresa" name="adresa" type="text" required class="form-control"
+                               placeholder="Adresa(ulica i broj, grad, postanski broj)">
+                        <p id="adressCheck" style="color: red;">
+                            Address is missing
+                        </p>
+                    </div>
+
+                    <div class="form-input">
+
+                        <i class="fa fa-user"></i>
+                        <input id="godina" name="godina" type="text" class="form-control"
+                               placeholder="Godina otvaranja">
+                        <p id="godinaCheck" style="color: red;">
+                            Year is missing
+                        </p>
+                    </div>
+
+                    <div class="form-input">
+
+                        <i class="fa fa-user"></i>
+                        <input id="mesecnaCena" name="mesecnaCena" type="text" class="form-control"
+                               placeholder="Mesecna cena">
+                        <p id="cena1Check" style="color: red;">
+                            Price is missing
+                        </p>
+                    </div>
+
+                    <div class="form-input">
+
+                        <i class="fa fa-user"></i>
+                        <input id="godisnjaCena" name="godisnjaCena" type="text" class="form-control"
+                               placeholder="Godisnja cena">
+                        <p id="cena2Check" style="color: red;">
+                            Price is missing
+                        </p>
+                    </div>
+
+                    <div class="form-input">
+
+                        <i class="fa fa-user"></i>
+                        <input id="treningCena" name="treningCena" type="text" class="form-control"
+                               placeholder="Cena jednog treninga">
+                        <p id="cena3Check" style="color: red;">
+                            Price is missing
+                        </p>
+                    </div>
+
+                    <div class="form-input">
+
+                        <i class="fa fa-user"></i>
+                        <input id="grupniCena" name="grupniCena" type="text" class="form-control"
+                               placeholder="Cena jednog grupnog treninga">
+                        <p id="cena4Check" style="color: red;">
+                            Price is missing
+                        </p>
+                    </div>
+
+                    <div class="form-input">
+
+                        <i class="fa fa-user"></i>
+                        <input id="grupniPersonalniCena" name="grupniPersonalniCena" type="text" class="form-control"
+                               placeholder="Cena jednog treninga sa personalnim trenerom">
+                        <p id="cena5Check" style="color: red;">
+                            Price is missing
+                        </p>
+                    </div>
+
+                    <input id="registracija" type="submit" class="btn btn-primary mt-4 signup" value="Izmeni centar">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

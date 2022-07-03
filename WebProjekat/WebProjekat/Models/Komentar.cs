@@ -13,14 +13,16 @@ namespace WebProjekat.Models
         public string TekstKomentara { get; set; }
         public int Ocena { get; set; }
         public bool Odobren { get; set; }
+        public bool Odbijen { get; set; }
 
-        public Komentar(Posetilac posetilac, FitnesCentar fitnesCentar, string tekstKomentara, int ocena, bool odobren = false, int id = 0)
+        public Komentar(Posetilac posetilac, FitnesCentar fitnesCentar, string tekstKomentara, int ocena, bool odobren = false, bool odbijen = false, int id = 0)
         {
             Posetilac = posetilac;
             FitnesCentar = fitnesCentar;
             TekstKomentara = tekstKomentara;
             Ocena = ocena;
             Odobren = odobren;
+            Odbijen = odbijen;
             Id = id;
         }
 

@@ -15,10 +15,33 @@ namespace WebProjekat.Controllers
         {
             return FitnesCentarManager.GetList();
         }
+
         public FitnesCentar Get(int id)
         {
             return FitnesCentarManager.FindById(id);
         }
 
+        public IHttpActionResult Post(FitnesCentar centar)
+        {
+            if (FitnesCentarManager.FindByName(centar))
+            {
+                return BadRequest();
+            }
+            else
+                return Ok(FitnesCentarManager.AddFitnesCentar(centar));
+        }
+
+        public IHttpActionResult Put(FitnesCentar centar)
+        {
+            if (centar.Id == 0)
+            {
+                return BadRequest();
+            }
+            if(centar.Naziv != null)
+            {
+                return Ok(FitnesCentarManager.UpdateCentar(centar));
+            }
+            return Ok(FitnesCentarManager.DeleteCentar(centar));
+        }
     }
 }

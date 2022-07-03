@@ -16,6 +16,7 @@ namespace WebProjekat.Models
 
         public static Komentar FindById(int id)
         {
+            listaKomentara = UcitavanjeJSON(path);
             return listaKomentara.Find(item => item.Id == id);
         }
 
@@ -25,13 +26,13 @@ namespace WebProjekat.Models
             return listaKomentara;
         }
 
-        public static List<Komentar> GetListByCentar(string naziv)
+        public static List<Komentar> GetListByCentar(int id)
         {
             listaKomentara = UcitavanjeJSON(path);
             List<Komentar> rezultat = new List<Komentar>();
             foreach (var item in listaKomentara)
             {
-                if (item.FitnesCentar.Naziv == naziv)
+                if (item.FitnesCentar.Id == id)
                     rezultat.Add(item);
             }
             return rezultat;
@@ -39,11 +40,27 @@ namespace WebProjekat.Models
 
         public static Komentar AddKomentar(Komentar komentar)
         {
+            listaKomentara = UcitavanjeJSON(path);
             komentar.Id = GenerateId();
             komentar.Odobren = false;
             listaKomentara.Add(komentar);
             UpisJSON(path, listaKomentara);
             return komentar;
+        }
+        public static Komentar UpdateKomentar(Komentar komentar)
+        {
+            listaKomentara = UcitavanjeJSON(path);
+            foreach (Komentar item in listaKomentara)
+            {
+                if (item.Id == komentar.Id)
+                {
+                    item.Odobren = komentar.Odobren;
+                    item.Odbijen = komentar.Odbijen;
+                    UpisJSON(path, listaKomentara);
+                    return item;
+                }
+            }
+            return null;
         }
 
         public static void RemoveKomentar(Komentar komentar)

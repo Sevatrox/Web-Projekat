@@ -21,6 +21,8 @@
                 table += '</thead>';
                 table += '<tbody>';
                 for (element in data) {
+                    if (data[element].Obrisan)
+                        continue;
                     let centar = '<td name="naziv" scope="row">' + data[element].Naziv + '</td>';
                     centar += '<td name="adresa">' + data[element].Adresa + '</td>';
                     centar += '<td name="godina">' + data[element].GodinaOtvaranja + '</td>';
@@ -77,6 +79,7 @@
 
             $("#logOut").click(function () {
                 sessionStorage.removeItem("login");
+                sessionStorage.removeItem("uloga");
                 logovanje();
                 alert('Izlogovani ste');
             });
@@ -91,6 +94,12 @@
                     let Lozinka = $("#lozinka").val();
                     $.post('/api/korisnik', { 'KorisnickoIme': KorisnickoIme, 'Lozinka': Lozinka },
                         function (result) {
+                            if (result.Uloga == 1) {
+                                if (result.Zabranjen == true) {
+                                    alert('Zabranjeno vam je logovanje');
+                                    return;
+                                }
+                            }
                             sessionStorage.setItem("login", JSON.stringify(result));
                             sessionStorage.setItem("uloga", result.Uloga);
                             logovanje();
@@ -111,91 +120,24 @@
                 if (sessionStorage.getItem("login") == null) {
                     $("#login").show();
                     $("#profile").hide();
+                    $("#manageFitness").hide();
                     $("#logOut").hide();
                 }
                 else {
                     $("#login").hide();
                     $("#profile").show();
+
+                    var korisnik = JSON.parse(sessionStorage.getItem("login"));
+                    if (korisnik.Uloga != 2) {
+                        $("#manageFitness").hide();
+                    }
+                    else {
+                        $("#manageFitness").show();
+                    }
+
                     $("#logOut").show();
                 }
             }
-
-            /*$("#pretraga").on("keyup", function () {
-                var valueNaziv = $("input[name=nazivInput]").val().toLowerCase();
-                var valueAdresa = $("input[name=adresaInput]").val().toLowerCase();
-                var valueGodina = $("input[name=godinaInput]").val().toLowerCase();
-                $("#table tbody td[name=naziv]").filter(function () {
-                    $(this).parent().toggle($(this).text().toLowerCase().indexOf(valueNaziv) > -1);
-
-                });
-
-            });*/
-
-            /*$("#filtroSolicitacoes").submit(function () {
-                $("#solicitacoes > div").show();
-                var filtroProtocolo = $("#filtroProtocolo").val();
-                var filtroSolicitante = $("#filtroSolicitante").val().toUpperCase();
-                var filtroStatus = $("#filtroStatus").val();
-                var filtroAnalista = $("#filtroAnalista").val();
-                var filtroResultado = $("#filtroResultado:checked").length;
-
-                var elements = $("[id=filtros]");
-
-                if (filtroStatus !== "0") {
-                    elements = elements.filter("[status='" + filtroStatus + "']");
-                }
-                if (filtroProtocolo !== "") {
-                    elements = elements.filter("[id='" + filtroProtocolo + "']");
-                }
-
-                // and so on
-
-                $("#solicitatcoes > div").not(elements).hide();
-
-                return false;
-            });*/
-
-            /*$(".pretraga").on("keyup", function () {
-                let valueNaziv = $("#pretragaNaziv").val().toLowerCase();
-                let valueAdresa = $("#pretragaAdresa").val().toLowerCase();
-
-
-                if (valueNaziv !== "") {
-                    $("#table tbody td[name=naziv]").filter(function () {
-                        let redovi = $(this).parent($(this).text().toLowerCase().indexOf(valueNaziv) > -1);
-                        if (valueAdresa !== "") {
-                            let a;
-                        }
-                        else
-                            $(redovi).toggle();
-                    });
-                }
-                /*if (valueAdresa !== "") {
-                    let test = $("#table tbody td[name=adresa]").is(":visible");
-                    $(test).filter(function () {
-                        $(this).parent().hide($(this).text().toLowerCase().indexOf(valueNaziv) <= -1);
-                    });
-                }
-            });
-
-            $("#pretragaAdresa").on("keyup", function () {
-                valueAdresa = $(this).val().toLowerCase();
-                valueNaziv = $("#pretragaNaziv").val().toLowerCase();
-
-                if (valueAdresa !== "") {
-                    $("#table tbody td[name=adresa]").filter(function () {
-                        filtrirani = $(this).parent().toggle($(this).text().toLowerCase().indexOf(valueAdresa) > -1);
-                    });
-                }
-                if (valueNaziv !== "") {
-                    $("#table tbody td[name=naziv]").filter(function () {
-                        filtrirani = $(this).parent().toggle($(this).text().toLowerCase().indexOf(valueNaziv) > -1);
-                    });
-                }
-
-            });*/
-
-
 
             $("#pretragaNaziv").on("keyup", function () {
                 let value = $(this).val().toLowerCase();
@@ -404,7 +346,8 @@
     <div class="menuDiv navbar">
         <a id="home" href="index.html">Pocetna</a>
         <a id="profile" href="profil.html">Profil</a>
-        <a id="logOut"href="index.html">Log out</a>
+        <a id="manageFitness" href="urediCentre.html">Uredi centre</a>
+        <a id="logOut" href="index.html">Log out</a>
     </div>
     <h1 style="text-align: center;">Fitnes centri u Novom Sadu</h1>
 

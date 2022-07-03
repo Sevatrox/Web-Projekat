@@ -16,7 +16,19 @@ namespace WebProjekat.Models
 
         public static FitnesCentar FindById(int id)
         {
+            listaCentara = UcitavanjeJSON(path);
             return listaCentara.Find(item => item.Id == id);
+        }
+
+        public static bool FindByName(FitnesCentar centar)
+        {
+            listaCentara = UcitavanjeJSON(path);
+            foreach (FitnesCentar item in listaCentara)
+            {
+                if (item.Naziv == centar.Naziv)
+                    return true;
+            }
+            return false;
         }
 
         public static List<FitnesCentar> GetList()
@@ -27,15 +39,53 @@ namespace WebProjekat.Models
 
         public static FitnesCentar AddFitnesCentar(FitnesCentar centar)
         {
+            listaCentara = UcitavanjeJSON(path);
             centar.Id = GenerateId();
-            centar.Vlasnik = new Vlasnik();
             listaCentara.Add(centar);
             UpisJSON(path, listaCentara);
             return centar;
         }
 
+        public static bool UpdateCentar(FitnesCentar centar)
+        {
+            listaCentara = UcitavanjeJSON(path);
+            foreach (var item in listaCentara)
+            {
+                if(item.Id == centar.Id)
+                {
+                    item.Naziv = centar.Naziv;
+                    item.Adresa = centar.Adresa;
+                    item.GodinaOtvaranja = centar.GodinaOtvaranja;
+                    item.MesecnaCena = centar.MesecnaCena;
+                    item.GodisnjaCena = centar.GodisnjaCena;
+                    item.CenaTreninga = centar.CenaTreninga;
+                    item.CenaGrupnogTreninga = centar.CenaGrupnogTreninga;
+                    item.CenaTreningaSaPersonalnim = centar.CenaTreningaSaPersonalnim;
+                    UpisJSON(path, listaCentara);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool DeleteCentar(FitnesCentar centar)
+        {
+            listaCentara = UcitavanjeJSON(path);
+            foreach (var item in listaCentara)
+            {
+                if(item.Id == centar.Id)
+                {
+                    item.Obrisan = true;
+                    UpisJSON(path, listaCentara);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static void RemoveCentar(FitnesCentar centar)
         {
+            listaCentara = UcitavanjeJSON(path);
             listaCentara.Remove(centar);
             UpisJSON(path, listaCentara);
         }

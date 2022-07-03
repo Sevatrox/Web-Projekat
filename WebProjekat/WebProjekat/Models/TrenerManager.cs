@@ -16,11 +16,13 @@ namespace WebProjekat.Models
 
         public static Trener FindById(int id)
         {
+            listaTrenera = UcitavanjeJSON(path);
             return listaTrenera.Find(item => item.Id == id);
         }
 
         public static bool FindByUsername(string korisnickoIme)
         {
+            listaTrenera = UcitavanjeJSON(path);
             foreach (var item in listaTrenera)
             {
                 if (item.KorisnickoIme == korisnickoIme)
@@ -31,6 +33,7 @@ namespace WebProjekat.Models
 
         public static bool FindIfExitsById(int id, string korisnickoIme)
         {
+            listaTrenera = UcitavanjeJSON(path);
             foreach (var item in listaTrenera)
             {
                 if (item.KorisnickoIme == korisnickoIme)
@@ -44,6 +47,7 @@ namespace WebProjekat.Models
 
         public static Trener FindAccount(string korisnickoIme, string lozinka)
         {
+            listaTrenera = UcitavanjeJSON(path);
             foreach (var item in listaTrenera)
             {
                 if (item.KorisnickoIme == korisnickoIme && item.Lozinka == lozinka)
@@ -52,17 +56,43 @@ namespace WebProjekat.Models
             return null;
         }
 
+        public static bool AlreadyWorking(Trener trener)
+        {
+            listaTrenera = UcitavanjeJSON(path);
+            foreach (var item in listaTrenera)
+            {
+                if(item.KorisnickoIme == trener.KorisnickoIme)
+                {
+                    if (item.AngazovanFitnesCentar != null)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public static List<Trener> GetList()
         {
             listaTrenera = UcitavanjeJSON(path);
             return listaTrenera;
         }
 
+        public static List<Trener> GetListByCenter(int id)
+        {
+            listaTrenera = UcitavanjeJSON(path);
+            List<Trener> rezultat = new List<Trener>();
+            foreach (var item in listaTrenera)
+            {
+                if (item.AngazovanFitnesCentar.Id == id)
+                    rezultat.Add(item);
+            }
+            return rezultat;
+        }
+
         public static Trener AddTrener(Trener trener)
         {
+            listaTrenera = UcitavanjeJSON(path);
             trener.Id = GenerateId();
             trener.ListaTreningaTrenera = new List<int>();
-            trener.AngazovanFitnesCentar = new FitnesCentar();
             listaTrenera.Add(trener);
             UpisJSON(path, listaTrenera);
             return trener;
@@ -70,6 +100,7 @@ namespace WebProjekat.Models
 
         public static Trener UpdateTrener(Trener trener)
         {
+            listaTrenera = UcitavanjeJSON(path);
             foreach (Trener item in listaTrenera)
             {
                 if (item.Id == trener.Id)
@@ -86,6 +117,21 @@ namespace WebProjekat.Models
                 }
             }
             return null;
+        }
+
+        public static bool DeleteTrener(Trener trener)
+        {
+            listaTrenera = UcitavanjeJSON(path);
+            foreach (var item in listaTrenera)
+            {
+                if(item.Id == trener.Id)
+                {
+                    item.Zabranjen = true;
+                    UpisJSON(path, listaTrenera);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static void RemoveTrener(Trener trener)

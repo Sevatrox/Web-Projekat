@@ -17,6 +17,7 @@ namespace WebProjekat.Models
         public double CenaTreninga { get; set; }
         public double CenaGrupnogTreninga { get; set; }
         public double CenaTreningaSaPersonalnim { get; set; }
+        public bool Obrisan { get; set; }
 
         public FitnesCentar() { }
     }
