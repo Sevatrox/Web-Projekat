@@ -10,7 +10,7 @@ namespace WebProjekat.Models
 {
     public class FitnesCentarManager
     {
-        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/fitnesCentri.json";
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/fitnesCentri.json");
 
         public static List<FitnesCentar> listaCentara { get; set; } = UcitavanjeJSON(path);
 

@@ -9,8 +9,7 @@ namespace WebProjekat.Models
 {
     public class GrupniTreningManager
     {
-        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/treninzi.json";
-
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/treninzi.json");
         public static List<GrupniTrening> listaTreninga { get; set; } = UcitavanjeJSON(path);
 
 

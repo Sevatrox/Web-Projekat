@@ -10,7 +10,7 @@ namespace WebProjekat.Models
 {
     public class VlasnikManager
     {
-        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/vlasnici.json";
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/vlasnici.json");
 
         public static List<Vlasnik> listaVlasnika { get; set; } = UcitavanjeJSON(path);
 

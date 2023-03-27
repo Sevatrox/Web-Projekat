@@ -10,7 +10,7 @@ namespace WebProjekat.Models
 {
     public class KomentarManager
     {
-        public static string path = "C:/Users/pc/source/repos/Projekat/WebProjekat/WebProjekat/App_Data/komentari.json";
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/komentari.json");
 
         public static List<Komentar> listaKomentara { get; set; } = UcitavanjeJSON(path);
 
